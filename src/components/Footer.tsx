@@ -8,8 +8,8 @@ const Footer: React.FC = () => {
   const [message, setMessage] = useState<{ type: 'success' | 'error' | null; text: string }>({ type: null, text: '' });
 
   const handleJoinWhatsAppGroup = () => {
-    const phoneNumber = '8755613893';
-    const messageText = 'Please add my number to Pahadi Pizza group for upcoming offers and updates';
+    const phoneNumber = '918755613893';
+    const messageText = 'Please add my number to Pahadi Pizza group for more new upcoming orders offer and updates';
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(messageText)}`;
     
     try {
@@ -165,7 +165,7 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-xl font-bold mb-6 text-red-600">Newsletter</h4>
             <p className="text-gray-300 mb-6 text-sm leading-relaxed">
-              If you want to stay up to date with better orders and updates, please join our WhatsApp member group.
+              If you want to stay up to date with better offers and updates, please join our WhatsApp member group.
             </p>
             <button 
               onClick={handleJoinWhatsAppGroup}
