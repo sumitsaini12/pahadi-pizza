@@ -252,14 +252,6 @@ export const MENU_ITEMS: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?auto=format&fit=crop&q=80&w=800',
   },
   {
-    id: 'mo2',
-    name: 'Non Veg Momo',
-    description: 'Juicy chicken-filled momos steamed to perfection.',
-    variants: [{ label: 'Half', price: 40 }, { label: 'Full', price: 80 }],
-    category: 'Momo',
-    image: 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?auto=format&fit=crop&q=80&w=800',
-  },
-  {
     id: 'mo3',
     name: 'Paneer Momo',
     description: 'Succulent paneer stuffing in delicate hand-folded momo shells.',
