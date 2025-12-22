@@ -156,7 +156,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="text-center text-gray-500 text-sm">
-          <p>© {new Date().getFullYear()} {BRAND_NAME}. All Rights Reserved. Crafted for quality.</p>
+          <p>© {new Date().getFullYear()} {BRAND_NAME}. All Rights Reserved. Crafted for quality. Created by Sumit Kumar</p>
         </div>
       </div>
     </footer>
