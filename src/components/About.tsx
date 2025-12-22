@@ -15,7 +15,7 @@ const About: React.FC = () => {
               className="relative w-full h-[500px] object-cover rounded-2xl shadow-2xl"
             />
             <div className="absolute -bottom-10 -right-6 md:-right-10 bg-white p-8 rounded-2xl shadow-xl max-w-xs border border-gray-100 hidden md:block">
-              <p className="text-red-600 font-bold text-4xl mb-1">10+</p>
+              <p className="text-red-600 font-bold text-4xl mb-1">5+</p>
               <p className="text-gray-600 font-medium leading-tight">Years of Culinary Excellence in Italian Fusion.</p>
             </div>
           </div>
