@@ -7,7 +7,7 @@ export const WHATSAPP_NUMBER = "918755613893";
 export const INSTAGRAM_HANDLE = "pahadi_pizza_uk04";
 export const INSTAGRAM_URL = `https://www.instagram.com/${INSTAGRAM_HANDLE}`;
 export const OPENING_HOURS = "Daily: 9:00 AM - 10:00 PM";
-export const EMAIL_ADDRESS = "pahadipizzakaladhungi@gmail.com";
+export const EMAIL_ADDRESS = "akashsaini875561@gmail.com";
 
 // Feature data without JSX - components will create icons
 export const FEATURES = [
