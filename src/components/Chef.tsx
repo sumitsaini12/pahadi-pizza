@@ -14,10 +14,13 @@ const Chef: React.FC = () => {
               <h3 className="text-4xl md:text-6xl font-bold text-white mb-8 font-display">Chef Akash Saini</h3>
               <div className="space-y-6 text-gray-400 text-lg leading-relaxed">
                 <p>
-                  With over 5 years of mastery in leading kitchens across Italy and India, Chef Akash Saini brings a unique fusion of traditional Neapolitan techniques and locally sourced hill spices.
+                  With over 5 years of experience across leading kitchens in India, Chef Akash Saini has honed his craft by working with popular pizza brands, including the Happy Funny Pizza franchise. His journey blends modern pizza techniques with bold, locally inspired flavors.
                 </p>
                 <p>
-                  Specializing in artisanal sourdough and thin-crust fusion pizzas, his philosophy is simple: "Innovation should never compromise authenticity."
+                  Specializing in artisanal sourdough and thin-crust fusion pizzas, Chef Akash focuses on quality ingredients, consistent taste, and customer-first innovation. His philosophy is simple:
+                </p>
+                <p className="text-white italic">
+                  "Great pizza is about balance—authentic methods, fresh ingredients, and flavors people love."
                 </p>
               </div>
               
