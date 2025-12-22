@@ -2,6 +2,44 @@
 import { MenuItem, Review } from './types';
 
 export const MENU_ITEMS: MenuItem[] = [
+  // --- PAN PIZZA ---
+  {
+    id: 'pan1',
+    name: 'Pan Onion',
+    description: 'Delicious pan pizza with fresh Onion toppings.',
+    variants: [{ label: 'Regular', price: 70 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Pan Pizza',
+    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'pan2',
+    name: 'Pan Capsicum',
+    description: 'Crispy pan pizza topped with fresh Capsicum.',
+    variants: [{ label: 'Regular', price: 70 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Pan Pizza',
+    image: 'https://images.unsplash.com/photo-1594007654729-407eedc4be65?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'pan3',
+    name: 'Pan Corn',
+    description: 'Sweet Corn pan pizza with golden kernels.',
+    variants: [{ label: 'Regular', price: 80 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Pan Pizza',
+    image: 'https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'pan4',
+    name: 'Pan Paneer',
+    description: 'Soft Paneer cubes on crispy pan pizza base.',
+    variants: [{ label: 'Regular', price: 99 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Pan Pizza',
+    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=800',
+  },
+
   // --- VEG PIZZAS (PAHADI SPECIAL) ---
   {
     id: 'p1',
@@ -38,7 +76,7 @@ export const MENU_ITEMS: MenuItem[] = [
   {
     id: 'cv1',
     name: 'Farm House',
-    description: 'A rustic garden mix of Tomato, Onion, Capsicum & Fresh Mushroom.',
+    description: 'Tomato, Onion, Capsicum, Mushroom.',
     variants: [{ label: 'Reg.', price: 159 }, { label: 'Med.', price: 309 }, { label: 'Lar.', price: 459 }],
     category: 'Veg Pizzas',
     subCategory: 'Classic Veg',
@@ -47,7 +85,7 @@ export const MENU_ITEMS: MenuItem[] = [
   {
     id: 'cv2',
     name: 'Special Country',
-    description: 'Traditional veggie blend of Tomato, Onion, and crisp Green Capsicum.',
+    description: 'Tomato, Onion, Capsicum.',
     variants: [{ label: 'Reg.', price: 159 }, { label: 'Med.', price: 309 }, { label: 'Lar.', price: 459 }],
     category: 'Veg Pizzas',
     subCategory: 'Classic Veg',
@@ -56,11 +94,20 @@ export const MENU_ITEMS: MenuItem[] = [
   {
     id: 'cv3',
     name: 'Paneer Pizza',
-    description: 'Soft Paneer cubes marinated with Onion and Green Capsicum.',
+    description: 'Onion, Paneer, Capsicum.',
     variants: [{ label: 'Reg.', price: 159 }, { label: 'Med.', price: 309 }, { label: 'Lar.', price: 459 }],
     category: 'Veg Pizzas',
     subCategory: 'Classic Veg',
     image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'cv4',
+    name: 'Veg Green',
+    description: 'Green Chilli, Capsicum, Green Coriander, Onion.',
+    variants: [{ label: 'Reg.', price: 159 }, { label: 'Med.', price: 309 }, { label: 'Lar.', price: 459 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Classic Veg',
+    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=800',
   },
 
   // --- DIFFERENT SAUCES ---
