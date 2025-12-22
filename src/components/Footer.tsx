@@ -1,8 +1,31 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { BRAND_NAME, TAGLINE, ADDRESS, PHONE_PRIMARY, INSTAGRAM_URL, EMAIL_ADDRESS } from '../constants';
-import { Instagram, Facebook, Twitter } from 'lucide-react';
+import { Instagram, Facebook, Twitter, MessageCircle } from 'lucide-react';
 
 const Footer: React.FC = () => {
+  const [message, setMessage] = useState<{ type: 'success' | 'error' | null; text: string }>({ type: null, text: '' });
+
+  const handleJoinWhatsAppGroup = () => {
+    const phoneNumber = '8755613893';
+    const messageText = 'Please add my number to Pahadi Pizza group for upcoming offers and updates';
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(messageText)}`;
+    
+    try {
+      window.open(whatsappUrl, '_blank');
+      setMessage({ type: 'success', text: 'Opening WhatsApp... Please send the message to join our group!' });
+      setTimeout(() => {
+        setMessage({ type: null, text: '' });
+      }, 5000);
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Unable to open WhatsApp. Please try again.' });
+      setTimeout(() => {
+        setMessage({ type: null, text: '' });
+      }, 5000);
+    }
+  };
+
   return (
     <footer className="bg-gray-900 text-white pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -140,18 +163,22 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="text-xl font-bold mb-6">Newsletter</h4>
-            <p className="text-gray-400 mb-6 text-sm">Join our slice-list for exclusive offers and mountain-inspired recipes.</p>
-            <div className="relative">
-              <input 
-                type="email" 
-                placeholder="Your email address" 
-                className="w-full bg-gray-800 border-none rounded-xl px-5 py-4 text-sm focus:ring-2 focus:ring-red-600 outline-none"
-              />
-              <button className="absolute right-2 top-2 bottom-2 bg-red-600 text-white px-4 rounded-lg text-xs font-bold hover:bg-red-700 transition-colors">
-                SUBMIT
-              </button>
-            </div>
+            <h4 className="text-xl font-bold mb-6 text-red-600">Newsletter</h4>
+            <p className="text-gray-300 mb-6 text-sm leading-relaxed">
+              If you want to stay up to date with better orders and updates, please join our WhatsApp member group.
+            </p>
+            <button 
+              onClick={handleJoinWhatsAppGroup}
+              className="w-full bg-[#25D366] text-white px-5 py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition-all shadow-lg shadow-green-500/30 active:scale-[0.98]"
+            >
+              <MessageCircle className="w-5 h-5" />
+              <span>Join WhatsApp group</span>
+            </button>
+            {message.type && (
+              <p className={`mt-4 text-sm font-medium ${message.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+                {message.text}
+              </p>
+            )}
           </div>
         </div>
 
