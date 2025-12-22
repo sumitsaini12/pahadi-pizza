@@ -1,0 +1,247 @@
+
+import { MenuItem, Review } from './types';
+
+export const MENU_ITEMS: MenuItem[] = [
+  // --- VEG PIZZAS (PAHADI SPECIAL) ---
+  {
+    id: 'p1',
+    name: 'Pahadi Pizza',
+    description: 'Our signature delight with Onion, Capsicum, Paneer, and rich Makhani Sauce.',
+    variants: [{ label: 'Reg.', price: 100 }, { label: 'Med.', price: 200 }, { label: 'Lar.', price: 330 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Pahadi Special',
+    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=800',
+    isPopular: true,
+  },
+
+  // --- SIMPLE VEG PIZZAS ---
+  {
+    id: 'sv1',
+    name: 'Margherita',
+    description: 'The timeless classic with pure Pizza Sauce & Mozzarella Cheese.',
+    variants: [{ label: 'Reg.', price: 89 }, { label: 'Med.', price: 179 }, { label: 'Lar.', price: 309 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Simple Veg',
+    image: 'https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'sv2',
+    name: 'Corn Cheese Pizza',
+    description: 'Golden Sweet Corn kernels buried under a blanket of Mozzarella.',
+    variants: [{ label: 'Reg.', price: 89 }, { label: 'Med.', price: 179 }, { label: 'Lar.', price: 309 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Simple Veg',
+    image: 'https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?auto=format&fit=crop&q=80&w=800',
+  },
+
+  // --- CLASSIC VEG ---
+  {
+    id: 'cv1',
+    name: 'Farm House',
+    description: 'A rustic garden mix of Tomato, Onion, Capsicum & Fresh Mushroom.',
+    variants: [{ label: 'Reg.', price: 159 }, { label: 'Med.', price: 309 }, { label: 'Lar.', price: 459 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Classic Veg',
+    image: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'cv2',
+    name: 'Special Country',
+    description: 'Traditional veggie blend of Tomato, Onion, and crisp Green Capsicum.',
+    variants: [{ label: 'Reg.', price: 159 }, { label: 'Med.', price: 309 }, { label: 'Lar.', price: 459 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Classic Veg',
+    image: 'https://images.unsplash.com/photo-1594007654729-407eedc4be65?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'cv3',
+    name: 'Paneer Pizza',
+    description: 'Soft Paneer cubes marinated with Onion and Green Capsicum.',
+    variants: [{ label: 'Reg.', price: 159 }, { label: 'Med.', price: 309 }, { label: 'Lar.', price: 459 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Classic Veg',
+    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=800',
+  },
+
+  // --- DIFFERENT SAUCES ---
+  {
+    id: 'ds1',
+    name: 'Schezwan Pizza',
+    description: 'Fiery Schezwan Sauce base with Onion, Capsicum, Green Chilli & Jalapeno.',
+    variants: [{ label: 'Reg.', price: 189 }, { label: 'Med.', price: 349 }, { label: 'Lar.', price: 489 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Different Sauces',
+    image: 'https://images.unsplash.com/photo-1593504049359-74330189a355?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'ds2',
+    name: 'Veg Tandoori',
+    description: 'Earthy Tandoori Sauce with Paneer, Corn, and Green Capsicum.',
+    variants: [{ label: 'Reg.', price: 189 }, { label: 'Med.', price: 349 }, { label: 'Lar.', price: 489 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Different Sauces',
+    image: 'https://images.unsplash.com/photo-1564128442383-9201fcc714eb?auto=format&fit=crop&q=80&w=800',
+  },
+
+  // --- VEG DELUXE ---
+  {
+    id: 'vd1',
+    name: 'Veggie Deluxe',
+    description: 'Premium mix of Mushroom, Onion, Capsicum, Paneer & Sweet Corn.',
+    variants: [{ label: 'Reg.', price: 220 }, { label: 'Med.', price: 390 }, { label: 'Lar.', price: 570 }],
+    category: 'Veg Pizzas',
+    subCategory: 'Veg Deluxe',
+    image: 'https://images.unsplash.com/photo-1544982503-9f984c14501a?auto=format&fit=crop&q=80&w=800',
+    isPopular: true,
+  },
+
+  // --- STARTERS ---
+  {
+    id: 'st1',
+    name: 'Spicy Cheese Pockets',
+    description: 'Deliciously crispy pockets stuffed with a spicy, gooey cheese center.',
+    variants: [{ label: 'Portion', price: 90 }],
+    category: 'Starters',
+    image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'st2',
+    name: 'French Fries',
+    description: 'Classic golden fries, salted to perfection.',
+    variants: [{ label: 'Portion', price: 70 }],
+    category: 'Starters',
+    image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&q=80&w=800',
+  },
+
+  // --- PASTA ---
+  {
+    id: 'pst1',
+    name: 'White Sauce Pasta',
+    description: 'Creamy, velvety white sauce pasta with Italian herbs.',
+    variants: [{ label: 'Regular', price: 90 }],
+    category: 'Pasta',
+    image: 'https://images.unsplash.com/photo-1645112481351-9ee2c139e8ad?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'pst2',
+    name: 'Red Sauce Pasta',
+    description: 'Tangy and spicy tomato-based pasta tossed with fresh mountain herbs.',
+    variants: [{ label: 'Regular', price: 110 }],
+    category: 'Pasta',
+    image: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&q=80&w=800',
+  },
+
+  // --- BURGER ---
+  {
+    id: 'br1',
+    name: 'Veg Burger',
+    description: 'Crispy vegetable patty with fresh greens and creamy mayo.',
+    variants: [{ label: 'Normal', price: 50 }, { label: 'Premium', price: 70 }],
+    category: 'Burger',
+    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'br2',
+    name: 'Spicy Veg Burger',
+    description: 'A zesty twist with spicy patty and hot sauce.',
+    variants: [{ label: 'Normal', price: 60 }, { label: 'Premium', price: 80 }],
+    category: 'Burger',
+    image: 'https://images.unsplash.com/photo-1582196016295-f8c8bd4b3a99?auto=format&fit=crop&q=80&w=800',
+    isPopular: true,
+  },
+
+  // --- MOMO ---
+  {
+    id: 'mo1',
+    name: 'Veg Momo',
+    description: 'Classic steamed momos with mixed vegetable filling.',
+    variants: [{ label: 'Half', price: 30 }, { label: 'Full', price: 60 }],
+    category: 'Momo',
+    image: 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'mo2',
+    name: 'Non Veg Momo',
+    description: 'Juicy chicken-filled momos steamed to perfection.',
+    variants: [{ label: 'Half', price: 40 }, { label: 'Full', price: 80 }],
+    category: 'Momo',
+    image: 'https://images.unsplash.com/photo-1635345711019-943a4111327c?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'mo3',
+    name: 'Paneer Momo',
+    description: 'Succulent paneer stuffing in delicate hand-folded momo shells.',
+    variants: [{ label: 'Half', price: 40 }, { label: 'Full', price: 80 }],
+    category: 'Momo',
+    image: 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?auto=format&fit=crop&q=80&w=800',
+  },
+
+  // --- CHOWMEIN ---
+  {
+    id: 'cw1',
+    name: 'Veg Chowmein',
+    description: 'Stir-fried noodles with crisp hill vegetables and savory sauces.',
+    variants: [{ label: 'Half', price: 30 }, { label: 'Full', price: 60 }],
+    category: 'Chowmein',
+    image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'cw2',
+    name: 'Egg Chowmein',
+    description: 'Perfectly tossed noodles with farm-fresh eggs and crunchy veggies.',
+    variants: [{ label: 'Half', price: 40 }, { label: 'Full', price: 80 }],
+    category: 'Chowmein',
+    image: 'https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&q=80&w=800',
+  },
+
+  // --- SHAKE & LASSI ---
+  {
+    id: 'shb',
+    name: 'Banana Shake',
+    description: 'Creamy and energy-rich shake made with fresh bananas.',
+    variants: [{ label: 'Glass', price: 30 }],
+    category: 'Shake',
+    image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'sh1',
+    name: 'Mango Shake',
+    description: 'Deliciously thick mango shake made with real fruit pulp.',
+    variants: [{ label: 'Glass', price: 30 }],
+    category: 'Shake',
+    image: 'https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'l1',
+    name: 'Lassi',
+    description: 'Traditional Punjabi-style refreshing sweet lassi.',
+    variants: [{ label: 'Glass', price: 40 }],
+    category: 'Shake',
+    image: 'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&q=80&w=800',
+  }
+];
+
+export const REVIEWS: Review[] = [
+  {
+    id: 'r1',
+    author: 'Rahul Sharma',
+    rating: 5,
+    comment: 'Best pizza in Kaladhungi! The Pahadi Pizza is a must-try. Authentic wood-fired feel.',
+    date: '2 days ago',
+  },
+  {
+    id: 'r2',
+    author: 'Anjali Bisht',
+    rating: 5,
+    comment: 'The Paneer Momos and Veggie Deluxe pizza are incredible. Very professional service.',
+    date: '1 week ago',
+  },
+  {
+    id: 'r3',
+    author: 'Deepak Saini',
+    rating: 5,
+    comment: 'Perfect crust and fresh toppings. Finally a premium pizza outlet in our town!',
+    date: '3 weeks ago',
+  },
+];
+
