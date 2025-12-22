@@ -64,11 +64,23 @@ const Menu: React.FC = () => {
                   </h4>
                 </div>
               )}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                {items.map((item) => (
-                  <MenuCard key={item.id} item={item} />
-                ))}
-              </div>
+              {activeCategory === 'Veg Pizzas' ? (
+                <div className="overflow-x-auto pb-4 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+                  <div className="flex gap-8 md:gap-10 min-w-max">
+                    {items.map((item) => (
+                      <div key={item.id} className="flex-shrink-0 w-[320px] md:w-[360px]">
+                        <MenuCard item={item} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                  {items.map((item) => (
+                    <MenuCard key={item.id} item={item} />
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
