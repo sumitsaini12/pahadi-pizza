@@ -44,7 +44,7 @@ const Chef: React.FC = () => {
               <div className="relative">
                 <div className="absolute inset-0 bg-red-600/20 rounded-[30px] rotate-6 scale-95"></div>
                 <img 
-                  src="https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=1200&auto=format&fit=crop" 
+                  src="https://pms-tool.s3.eu-west-1.amazonaws.com/1766409646086.jpeg" 
                   alt="Chef Akash Saini" 
                   className="relative w-full aspect-[4/5] object-cover rounded-[30px] grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl"
                   onError={(e) => {

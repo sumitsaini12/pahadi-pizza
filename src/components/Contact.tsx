@@ -2,6 +2,20 @@ import React from 'react';
 import { ADDRESS, PHONE_PRIMARY, PHONE_SECONDARY, WHATSAPP_NUMBER, OPENING_HOURS } from '../constants';
 import { MapPin, Phone, MessageCircle, Clock } from 'lucide-react';
 
+// X (Twitter) Logo Component
+const XIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" }) => {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={className}
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+};
+
 const Contact: React.FC = () => {
   return (
     <section id="location" className="py-24 bg-white">
@@ -49,11 +63,13 @@ const Contact: React.FC = () => {
 
             <div className="mt-12 flex flex-col sm:flex-row gap-4">
               <a 
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                className="flex items-center justify-center gap-3 bg-green-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-green-700 transition-all shadow-xl shadow-green-600/20"
+                href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 bg-black text-white px-8 py-4 rounded-2xl font-bold hover:bg-gray-900 transition-all shadow-xl shadow-black/20"
               >
-                <MessageCircle className="w-5 h-5" />
-                Chat on WhatsApp
+                <XIcon className="w-5 h-5" />
+                Follow on X
               </a>
               <a 
                 href={`https://www.google.com/maps/search/${encodeURIComponent(ADDRESS)}`}
