@@ -120,7 +120,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Creamy, velvety white sauce pasta with Italian herbs.',
     variants: [{ label: 'Regular', price: 90 }],
     category: 'Pasta',
-    image: 'https://images.unsplash.com/photo-1645112481351-9ee2c139e8ad?auto=format&fit=crop&q=80&w=800',
+    image: 'https://i0.wp.com/aartimadan.com/wp-content/uploads/2020/07/White-Sauce-Pasta.jpg?w=1000&ssl=1',
   },
   {
     id: 'pst2',
@@ -128,7 +128,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Tangy and spicy tomato-based pasta tossed with fresh mountain herbs.',
     variants: [{ label: 'Regular', price: 110 }],
     category: 'Pasta',
-    image: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&q=80&w=800',
+    image: 'https://plus.unsplash.com/premium_photo-1664478288635-b9703a502393?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
 
   // --- BURGER ---
@@ -138,7 +138,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Crispy vegetable patty with fresh greens and creamy mayo.',
     variants: [{ label: 'Normal', price: 50 }, { label: 'Premium', price: 70 }],
     category: 'Burger',
-    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1571091655789-405eb7a3a3a8?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: 'br2',
@@ -146,7 +146,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'A zesty twist with spicy patty and hot sauce.',
     variants: [{ label: 'Normal', price: 60 }, { label: 'Premium', price: 80 }],
     category: 'Burger',
-    image: 'https://images.unsplash.com/photo-1582196016295-f8c8bd4b3a99?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=800',
     isPopular: true,
   },
 
@@ -165,7 +165,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Juicy chicken-filled momos steamed to perfection.',
     variants: [{ label: 'Half', price: 40 }, { label: 'Full', price: 80 }],
     category: 'Momo',
-    image: 'https://images.unsplash.com/photo-1635345711019-943a4111327c?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?auto=format&fit=crop&q=80&w=800',
   },
   {
     id: 'mo3',
@@ -191,7 +191,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Perfectly tossed noodles with farm-fresh eggs and crunchy veggies.',
     variants: [{ label: 'Half', price: 40 }, { label: 'Full', price: 80 }],
     category: 'Chowmein',
-    image: 'https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&q=80&w=800',
   },
 
   // --- SHAKE & LASSI ---
@@ -201,7 +201,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Creamy and energy-rich shake made with fresh bananas.',
     variants: [{ label: 'Glass', price: 30 }],
     category: 'Shake',
-    image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&q=80&w=800',
+    image: 'https://plus.unsplash.com/premium_photo-1695035006295-d37b73003e27?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: 'sh1',
@@ -217,7 +217,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Traditional Punjabi-style refreshing sweet lassi.',
     variants: [{ label: 'Glass', price: 40 }],
     category: 'Shake',
-    image: 'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1692620609860-be6717812f71?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   }
 ];
 
