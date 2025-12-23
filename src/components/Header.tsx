@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { BRAND_NAME } from '../constants';
 import { Menu, X, Phone } from 'lucide-react';
 
@@ -38,8 +39,14 @@ const Header: React.FC = () => {
           }}
           className="flex items-center space-x-2"
         >
-          <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-xl">P</span>
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden">
+            <Image 
+              src="/app-logo.png" 
+              alt="Pahadi Pizza Logo" 
+              width={40} 
+              height={40} 
+              className="object-contain"
+            />
           </div>
           <span className={`text-xl font-bold tracking-tight ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
             {BRAND_NAME}

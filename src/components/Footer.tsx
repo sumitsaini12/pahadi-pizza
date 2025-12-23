@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { BRAND_NAME, TAGLINE, ADDRESS, PHONE_PRIMARY, INSTAGRAM_URL, EMAIL_ADDRESS } from '../constants';
 import { Instagram, Facebook, Twitter, MessageCircle } from 'lucide-react';
 
@@ -39,8 +40,14 @@ const Footer: React.FC = () => {
               }}
               className="flex items-center space-x-3 mb-6"
             >
-              <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-2xl">P</span>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden">
+                <Image 
+                  src="/app-logo.png" 
+                  alt="Pahadi Pizza Logo" 
+                  width={48} 
+                  height={48} 
+                  className="object-contain"
+                />
               </div>
               <span className="text-2xl font-bold tracking-tight">{BRAND_NAME}</span>
             </a>
