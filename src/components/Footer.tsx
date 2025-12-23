@@ -190,7 +190,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="text-center text-gray-500 text-sm">
-          <p>© {new Date().getFullYear()} {BRAND_NAME}. All Rights Reserved. Crafted for quality. Created by <a href="https://sumit-two.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-500 transition-colors cursor-pointer">Sumit Kumar</a></p>
+          <p>© {new Date().getFullYear()} {BRAND_NAME}. All Rights Reserved. Crafted for quality. Created by <a href="https://sumit-dev-rose.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-500 transition-colors cursor-pointer">Sumit Kumar</a></p>
         </div>
       </div>
     </footer>

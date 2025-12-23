@@ -27,3 +27,4 @@ To add your logo as the favicon (icon in browser tab), add the following files h
 
 The favicon will automatically appear in the browser tab once you add the file and restart your development server.
 
+
