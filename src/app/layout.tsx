@@ -17,10 +17,12 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: "Pahadi Pizza - Authentic Taste from the Hills",
   description: "Hand-stretched, wood-fired pizza served with love in the heart of Uttarakhand. Order now for the best pizza experience in Kaladhungi.",
+  // Small copies resized from /app-logo.png (unchanged): the 540 KB original was
+  // being downloaded as the favicon on every first visit, slowing phones down.
   icons: {
-    icon: '/app-logo.png',
-    shortcut: '/app-logo.png',
-    apple: '/app-logo.png',
+    icon: '/icon-48.png',
+    shortcut: '/icon-48.png',
+    apple: '/apple-touch-icon.png',
   },
 };
 
@@ -28,6 +30,8 @@ export const viewport: Viewport = {
   themeColor: "#160e0a",
   width: "device-width",
   initialScale: 1,
+  // Lets env(safe-area-inset-*) report real values on notched phones.
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
