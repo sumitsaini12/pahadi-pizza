@@ -24,13 +24,18 @@ export const ABOUT = {
 };
 
 export const CHEF = {
-  eyebrow: 'Meet Our Visionary',
+  eyebrow: 'Meet the Chef',
   name: 'Chef Akash Saini',
-  bio: [
-    'With over 5 years of experience across leading kitchens in India, Chef Akash Saini has honed his craft by working with popular pizza brands, including the Happy Funny Pizza franchise. His journey blends modern pizza techniques with bold, locally inspired flavors.',
-    'Specializing in artisanal sourdough and thin-crust fusion pizzas, Chef Akash focuses on quality ingredients, consistent taste, and customer-first innovation. His philosophy is simple:',
+  intro: 'He mixes modern pizza methods with bold, local flavors.',
+  points: [
+    {
+      label: 'Experience',
+      text: '5+ years in leading kitchens across India, including popular pizza brands like the Happy Funny Pizza franchise.',
+    },
+    { label: 'Speciality', text: 'Sourdough and thin-crust fusion pizzas.' },
+    { label: 'Promise', text: 'Quality ingredients and the same great taste, every time.' },
   ],
-  quote: 'Great pizza is about balance—authentic methods, fresh ingredients, and flavors people love.',
+  quote: 'Great pizza is all about balance: authentic methods, fresh ingredients, and flavors people love.',
   stats: [
     { value: '5+', label: 'Years Experience' },
     { value: '100k+', label: 'Pizzas Served' },

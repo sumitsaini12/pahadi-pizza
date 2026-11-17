@@ -30,10 +30,16 @@ export default function Chef() {
                 <h2 className="font-display text-4xl font-semibold leading-[1.02] md:text-6xl">{CHEF.name}</h2>
               </Reveal>
 
-              <Reveal delay={0.1} className="mt-8 space-y-5 text-lg leading-relaxed text-cream/75">
-                {CHEF.bio.map((p) => (
-                  <p key={p.slice(0, 24)}>{p}</p>
-                ))}
+              <Reveal delay={0.1} className="mt-8 text-lg leading-relaxed text-cream/75">
+                <p className="text-xl text-cream/90">{CHEF.intro}</p>
+                <ul className="mt-6 space-y-4">
+                  {CHEF.points.map((pt) => (
+                    <li key={pt.label} className="border-l-2 border-gold/50 pl-4">
+                      <span className="block text-xs font-bold uppercase tracking-[0.2em] text-gold">{pt.label}</span>
+                      <span className="mt-1 block">{pt.text}</span>
+                    </li>
+                  ))}
+                </ul>
               </Reveal>
 
               <Reveal delay={0.2}>
