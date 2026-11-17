@@ -23,7 +23,8 @@ type Props = {
  */
 export default function ReelCard({ item, index, total, near, onOpen }: Props) {
   const isVideo = item.kind === 'video';
-  const poster = item.media ? (isVideo ? item.media.thumbnailUrl : item.media.mediaUrl) : undefined;
+  // For videos, and albums that open on a video, mediaUrl is an mp4, so the thumbnail is the poster.
+  const poster = item.media ? (item.media.mediaType === 'IMAGE' ? item.media.mediaUrl : (item.media.thumbnailUrl ?? item.media.mediaUrl)) : undefined;
   const date = formatPostDate(item.date);
 
   return (

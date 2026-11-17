@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type Mous
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import ReelCard from './ReelCard';
 import type { ReelItem } from './types';
-import { usePrefersReducedMotion } from './usePrefersReducedMotion';
+import { usePrefersReducedMotion, useMediaQuery } from './usePrefersReducedMotion';
 
 const AUTO_ADVANCE_MS = 3600;
 /** After the visitor scrolls, drags or presses an arrow, auto-advance waits this long before resuming. */
@@ -22,13 +22,16 @@ type Props = {
 /**
  * Horizontal reel strip: native momentum scrolling and swipe, mouse drag with a little glide,
  * arrow buttons, keyboard arrows between cards, and a gentle auto-advance that loops back to
- * the first reel. Auto-advance stops on hover, focus, interaction, while the theatre is open,
+ * the first reel (wide screens only). Auto-advance stops on hover, focus, interaction, while the theatre is open,
  * off screen, in a background tab, for reduced motion, or with the pause button.
  */
 export default function ReelStrip({ items, paused, onOpen }: Props) {
   const scroller = useRef<HTMLUListElement>(null);
   const section = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
+  // Phones scroll the strip by swipe only: nothing moves under the visitor's thumb.
+  const wide = useMediaQuery('(min-width: 768px)');
+  const auto = wide && !reduced;
 
   const [inView, setInView] = useState(false);
   const [near, setNear] = useState<boolean[]>(() => items.map(() => false));
@@ -110,12 +113,12 @@ export default function ReelStrip({ items, paused, onOpen }: Props) {
 
   // Auto-advance. `now` ticks so a pause after interaction ends on its own.
   const running =
-    !reduced && !userPaused && !paused && !hovering && !focusWithin && inView && pageVisible && now - lastTouch > RESUME_AFTER_MS;
+    auto && !userPaused && !paused && !hovering && !focusWithin && inView && pageVisible && now - lastTouch > RESUME_AFTER_MS;
   useEffect(() => {
-    if (reduced || userPaused) return;
+    if (!auto || userPaused) return;
     const t = window.setInterval(() => setNow(Date.now()), AUTO_ADVANCE_MS);
     return () => window.clearInterval(t);
-  }, [reduced, userPaused]);
+  }, [auto, userPaused]);
   useEffect(() => {
     if (running && now) go(1);
     // Advance once per tick only.
@@ -200,7 +203,6 @@ export default function ReelStrip({ items, paused, onOpen }: Props) {
     next.closest('li')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', inline: 'start', block: 'nearest' });
   };
 
-  const showAutoToggle = !reduced;
 
   return (
     <div ref={section} onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)}>
@@ -212,13 +214,13 @@ export default function ReelStrip({ items, paused, onOpen }: Props) {
           <span className="ml-3 hidden sm:inline">Newest first</span>
         </p>
         <div className="flex items-center gap-2">
-          {showAutoToggle && (
+          {auto && (
             <button
               type="button"
               onClick={() => setUserPaused((p) => !p)}
               aria-pressed={userPaused}
               aria-label={userPaused ? 'Resume auto-scroll' : 'Pause auto-scroll'}
-              className="mr-1 hidden h-11 items-center gap-2 rounded-full px-4 text-xs font-bold uppercase tracking-[0.18em] text-muted transition hover:text-tomato md:inline-flex"
+              className="mr-1 inline-flex h-11 items-center gap-2 rounded-full px-4 text-xs font-bold uppercase tracking-[0.18em] text-muted transition hover:text-tomato"
             >
               {userPaused ? <Play className="h-3.5 w-3.5 fill-current" aria-hidden /> : <Pause className="h-3.5 w-3.5 fill-current" aria-hidden />}
               {userPaused ? 'Play' : 'Pause'}

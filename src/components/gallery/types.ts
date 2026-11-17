@@ -14,5 +14,7 @@ export type ReelItem = {
   date: string;
   permalink: string;
   embedUrl?: string;
+  /** Instagram handle of a collab reel's main author, if it is not the restaurant. */
+  with?: string;
   media?: InstagramMedia;
 };

@@ -24,6 +24,7 @@ export default async function Gallery() {
     date: p.date,
     permalink: postUrl(p),
     embedUrl: `${postUrl(p)}embed/`,
+    with: p.with,
   }));
   return <ReelGallery mode="embed" items={items} />;
 }

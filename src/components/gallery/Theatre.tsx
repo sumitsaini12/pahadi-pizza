@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, type PointerEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight, ChevronLeft, ChevronRight, Hand, Play, X } from 'lucide-react';
@@ -146,6 +146,7 @@ export default function Theatre({ items, index, onChange }: Props) {
               )}
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-gold-light">{formatPostDate(item.date)}</p>
               <h3 className="mt-2 font-display text-2xl font-semibold leading-tight md:text-3xl">{item.label}</h3>
+              {item.with && <p className="mt-2 text-sm text-cream/60">A collab reel with @{item.with}</p>}
               {item.caption && <Caption text={item.caption} />}
               {item.embedUrl && item.kind === 'video' && (
                 <p className="mt-4 flex items-center gap-2 text-sm text-cream/70">
@@ -209,32 +210,7 @@ export default function Theatre({ items, index, onChange }: Props) {
 /** Video frame, sized to fit the screen height. */
 function Stage({ item }: { item: ReelItem }) {
   const media = item.media;
-
-  if (media) {
-    const slide = media.mediaType === 'CAROUSEL_ALBUM' && media.children?.length ? media.children[0] : media;
-    const isVideo = slide.mediaType === 'VIDEO';
-    return (
-      <div
-        className={`relative mx-auto overflow-hidden rounded-[1.5rem] bg-black shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)] ${
-          isVideo ? 'aspect-[9/16] h-[min(62vh,calc(100vw*16/9))] md:h-[min(78vh,820px)]' : 'aspect-[4/5] h-[min(62vh,calc(100vw*5/4))] md:h-[min(78vh,760px)]'
-        }`}
-      >
-        {isVideo ? (
-          <video
-            key={slide.mediaUrl}
-            src={slide.mediaUrl}
-            poster={slide.thumbnailUrl}
-            controls
-            autoPlay
-            playsInline
-            className="absolute inset-0 h-full w-full object-contain"
-          />
-        ) : (
-          <Image src={slide.mediaUrl} alt={item.label} fill unoptimized sizes="(min-width: 768px) 50vw, 100vw" className="object-contain" />
-        )}
-      </div>
-    );
-  }
+  if (media) return <MediaStage key={item.id} item={item} />;
 
   const reel = item.kind === 'video';
   return (
@@ -255,6 +231,51 @@ function Stage({ item }: { item: ReelItem }) {
           shape={reel ? 'reel' : 'post'}
           inert={!reel}
         />
+      )}
+    </div>
+  );
+}
+
+/** A live API post: our own player for videos, the image for photos, with dots for album slides. */
+function MediaStage({ item }: { item: ReelItem }) {
+  const media = item.media!;
+  const slides = media.mediaType === 'CAROUSEL_ALBUM' && media.children?.length ? media.children : [media];
+  const [slide, setSlide] = useState(0);
+  const current = slides[Math.min(slide, slides.length - 1)];
+  const isVideo = current.mediaType === 'VIDEO';
+
+  return (
+    <div
+      className={`relative mx-auto overflow-hidden rounded-[1.5rem] bg-black shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)] ${
+        isVideo ? 'aspect-[9/16] w-[min(100%,calc(62vh*9/16))] md:w-[min(calc(78vh*9/16),460px)]' : 'aspect-[4/5] w-[min(100%,calc(62vh*4/5))] md:w-[min(calc(78vh*4/5),600px)]'
+      }`}
+    >
+      {isVideo ? (
+        <video
+          key={current.mediaUrl}
+          src={current.mediaUrl}
+          poster={current.thumbnailUrl}
+          controls
+          autoPlay
+          playsInline
+          className="absolute inset-0 h-full w-full object-contain"
+        />
+      ) : (
+        <Image key={current.mediaUrl} src={current.mediaUrl} alt={item.label} fill unoptimized sizes="(min-width: 768px) 50vw, 100vw" className="object-contain" />
+      )}
+      {slides.length > 1 && (
+        <div className="absolute inset-x-0 bottom-3 flex justify-center gap-1.5">
+          {slides.map((s, i) => (
+            <button
+              key={s.id}
+              type="button"
+              onClick={() => setSlide(i)}
+              aria-label={`Show slide ${i + 1} of ${slides.length}`}
+              aria-current={i === slide}
+              className={`h-2 rounded-full transition-all ${i === slide ? 'w-6 bg-cream' : 'w-2 bg-cream/50'}`}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
