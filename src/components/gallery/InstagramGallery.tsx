@@ -53,7 +53,7 @@ export default function InstagramGallery(props: Props) {
             </span>
             <span className="flex min-w-0 flex-col leading-tight">
               <span className="truncate text-sm font-bold text-ink">@{INSTAGRAM_HANDLE}</span>
-              <span className="truncate text-xs text-muted">{props.mode === 'live' ? 'Live from Instagram' : 'New reels every week'}</span>
+              <span className="truncate text-xs text-muted">{props.mode === 'live' ? 'Live from Instagram' : 'Follow for new reels'}</span>
             </span>
             <span className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full bg-tomato px-4 py-2 text-sm font-semibold text-cream transition group-hover:bg-tomato-dark">
               Follow

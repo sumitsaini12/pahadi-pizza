@@ -107,7 +107,7 @@ export default function Lightbox({ items, index, onChange }: Props) {
                 <div>
                   <p className="hidden text-[11px] font-bold uppercase tracking-[0.2em] text-tomato md:block">@{INSTAGRAM_HANDLE}</p>
                   <p className="font-display text-lg font-semibold text-ink md:mt-2 md:text-2xl">{item.label}</p>
-                  <p className="mt-3 hidden text-sm text-muted md:block">Press play to watch here, or open it on Instagram to like, comment and share.</p>
+                  <p className="mt-3 hidden text-sm text-muted md:block">Open it on Instagram to watch with sound, like and share.</p>
                 </div>
                 <ViewOnInstagram href={href} />
               </div>

@@ -15,7 +15,7 @@ export type FeaturedPost = {
 };
 
 export const FEATURED_POSTS: FeaturedPost[] = [
-  { kind: 'reel', code: 'DfimTwrzt0O', label: 'Our chef, fresh from the kitchen', mediaRatio: 1.25 },
+  { kind: 'reel', code: 'DfimTwrzt0O', label: 'Pizza, momos and chowmein at Main Chauraha', mediaRatio: 1.25 },
   { kind: 'p', code: 'DKdZqljT1gl', label: 'Straight out of the oven', mediaRatio: 0.95 },
   { kind: 'reel', code: 'DfHmSh-C3PL', label: 'Guests trying the offer', mediaRatio: 1.25 },
   { kind: 'p', code: 'DKjLT1vJZfO', label: 'The full menu card', mediaRatio: 1 },
