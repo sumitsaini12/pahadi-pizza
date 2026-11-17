@@ -7,7 +7,6 @@ import {
   motion,
   useMotionValue,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
@@ -16,6 +15,7 @@ import CanvasBoundary from '../three/CanvasBoundary';
 import { OVERHANG, type SceneInput } from './ingredients';
 import IngredientSprites from './IngredientSprites';
 import StatCounter from './StatCounter';
+import usePrefersReducedMotion from './usePrefersReducedMotion';
 import styles from './about.module.css';
 
 const AboutIngredients3D = dynamic(() => import('../three/AboutIngredients3D'), { ssr: false });
@@ -50,7 +50,7 @@ type StageProps = {
  */
 export default function AboutStage({ image, imageAlt, badgeValue, badgeText }: StageProps) {
   const stage = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion() ?? false;
+  const reduce = usePrefersReducedMotion();
 
   const { scrollYProgress } = useScroll({ target: stage, offset: ['start end', 'end start'] });
   const skyY = useTransform(scrollYProgress, [0, 1], ['-4%', '4%']);
@@ -92,26 +92,64 @@ export default function AboutStage({ image, imageAlt, badgeValue, badgeText }: S
     sceneInput.current.py = 0;
   };
 
-  // Load the 3D layer only near the viewport, and pause it off screen.
+  // Pause the 3D layer whenever the stage is off screen.
   const [want3D, setWant3D] = useState(false);
   const [ready, setReady] = useState(false);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const el = stage.current;
     if (!el) return;
-    const capable =
-      window.matchMedia('(min-width: 768px)').matches &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
-      hasWebGL();
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        setVisible(entry.isIntersecting);
-        if (entry.isIntersecting && capable) setWant3D(true);
-      },
-      { rootMargin: '300px 0px' },
-    );
+    const io = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { rootMargin: '100px 0px' });
     io.observe(el);
     return () => io.disconnect();
+  }, []);
+
+  // Load it only after the visitor has started scrolling and the stage is
+  // close, then wait for an idle moment, so it never competes with the
+  // initial page load or the hero.
+  useEffect(() => {
+    const el = stage.current;
+    if (!el) return;
+    if (!window.matchMedia('(min-width: 768px)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    let idle: number | undefined;
+    let near = false;
+    let scrolled = false;
+    const tryLoad = () => {
+      if (!near || !scrolled || idle !== undefined) return;
+      io.disconnect();
+      window.removeEventListener('scroll', onScroll);
+      const go = () => {
+        if (hasWebGL()) setWant3D(true);
+      };
+      idle = w.requestIdleCallback ? w.requestIdleCallback(go, { timeout: 1500 }) : window.setTimeout(go, 300);
+    };
+    const onScroll = () => {
+      scrolled = true;
+      tryLoad();
+    };
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        near = entry.isIntersecting;
+        tryLoad();
+      },
+      { rootMargin: '200px 0px' },
+    );
+    io.observe(el);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener('scroll', onScroll);
+      if (idle !== undefined) {
+        if (w.cancelIdleCallback) w.cancelIdleCallback(idle);
+        else window.clearTimeout(idle);
+      }
+    };
   }, []);
 
   const motionOn = !reduce;
