@@ -8,10 +8,8 @@ import Reveal from './motion/Reveal';
 import TiltCard from './motion/TiltCard';
 
 export default function Chef() {
-  // Try the chef's photo, then the old fallback; if both are unavailable show a branded card.
-  const sources = [CHEF.photo, CHEF.photoFallback];
-  const [attempt, setAttempt] = useState(0);
-  const photo = sources[attempt];
+  // The chef's photo ships with the site; the branded card only shows if it ever fails to load.
+  const [photoFailed, setPhotoFailed] = useState(false);
 
   return (
     <section id="chef" className="relative overflow-hidden bg-cream py-24 md:py-32">
@@ -60,14 +58,15 @@ export default function Chef() {
                 <div aria-hidden className="absolute inset-0 translate-x-4 translate-y-4 rotate-3 rounded-[2rem] border-2 border-gold/40" />
                 <TiltCard max={9} innerClassName="rounded-[2rem]">
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-2xl">
-                    {photo ? (
+                    {!photoFailed ? (
                       <Image
-                        src={photo}
-                        alt={CHEF.name}
+                        src={CHEF.photo}
+                        alt={CHEF.photoAlt}
                         fill
-                        sizes="(min-width: 1024px) 440px, 90vw"
-                        className="object-cover transition duration-700 hover:scale-105"
-                        onError={() => setAttempt((a) => a + 1)}
+                        loading="lazy"
+                        sizes="(min-width: 1024px) 520px, (min-width: 640px) 384px, 90vw"
+                        className="object-cover object-[50%_30%] transition duration-700 hover:scale-105"
+                        onError={() => setPhotoFailed(true)}
                       />
                     ) : (
                       <div className="absolute inset-0 grid place-items-center bg-[radial-gradient(circle_at_50%_35%,#3a2618,#160e0a_70%)]">
@@ -79,8 +78,8 @@ export default function Chef() {
                         </div>
                       </div>
                     )}
-                    <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-espresso/70 via-transparent to-transparent" />
-                    <p className="absolute bottom-5 left-5 right-5 font-display text-2xl font-semibold text-cream" style={{ transform: 'translateZ(50px)' }}>
+                    <div aria-hidden className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-espresso/90 via-espresso/45 to-transparent" />
+                    <p className="absolute bottom-5 left-5 right-5 font-display text-2xl font-semibold text-cream drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] md:text-3xl" style={{ transform: 'translateZ(50px)' }}>
                       {CHEF.name}
                     </p>
                   </div>

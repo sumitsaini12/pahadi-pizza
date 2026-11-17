@@ -36,8 +36,9 @@ export const CHEF = {
     { value: '100k+', label: 'Pizzas Served' },
     { value: 'Top 1', label: 'In Kaladhungi' },
   ],
-  photo: 'https://pms-tool.s3.eu-west-1.amazonaws.com/1766409646086.jpeg',
-  photoFallback: 'https://images.unsplash.com/photo-1577219491135-ce391730fbaf?q=80&w=1200&auto=format&fit=crop',
+  // Stored in the project so the photo never depends on an outside host.
+  photo: '/images/chef-akash-saini.webp',
+  photoAlt: 'Chef Akash Saini at Pahadi Pizza, Kaladhungi',
 };
 
 export const MAP_QUERY = 'Main Chauraha, Kaladhungi, Uttarakhand, India';
