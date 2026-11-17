@@ -12,44 +12,44 @@ export default function Chef() {
   const [photoFailed, setPhotoFailed] = useState(false);
 
   return (
-    <section id="chef" className="relative overflow-hidden bg-cream py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <div className="grain relative overflow-hidden rounded-[2.5rem] bg-espresso px-6 py-14 text-cream shadow-[0_50px_100px_-40px_rgba(22,14,10,0.9)] md:px-14 md:py-20 lg:rounded-[3rem]">
+    <section id="chef" className="cv-auto relative overflow-hidden bg-cream py-12 md:py-32">
+      <div className="mx-auto max-w-7xl px-3 md:px-8">
+        <div className="grain relative overflow-hidden rounded-[2rem] bg-espresso px-5 py-10 text-cream md:rounded-[2.5rem] shadow-[0_50px_100px_-40px_rgba(22,14,10,0.9)] md:px-14 md:py-20 lg:rounded-[3rem]">
           <div aria-hidden className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(200,54,31,0.35),transparent_65%)]" />
           <div aria-hidden className="absolute -bottom-32 -left-20 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(233,169,59,0.2),transparent_65%)]" />
 
-          <div className="relative z-[2] grid grid-cols-1 items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+          <div className="relative z-[2] grid grid-cols-1 items-center gap-8 md:gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
             <div className="order-2 lg:order-1">
               <Reveal>
                 <p className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.28em] text-gold">
                   <ChefHat className="h-4 w-4" aria-hidden />
                   {CHEF.eyebrow}
                 </p>
-                <h2 className="font-display text-4xl font-semibold leading-[1.02] md:text-6xl">{CHEF.name}</h2>
+                <h2 className="font-display text-[2.15rem] font-semibold leading-[1.02] md:text-6xl">{CHEF.name}</h2>
                 <p className="mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-cream/70 md:text-base">{CHEF.role}</p>
               </Reveal>
 
-              <Reveal delay={0.1} className="mt-8 text-lg leading-relaxed text-cream/75">
+              <Reveal delay={0.1} className="mt-5 text-base leading-relaxed text-cream/80 md:mt-8 md:text-lg md:text-cream/75">
                 {CHEF.note.map((para, i) => (
-                  <p key={i} className={i === 0 ? 'text-xl text-cream/90' : 'mt-5'}>
+                  <p key={i} className={i === 0 ? 'text-lg text-cream/90 md:text-xl' : 'mt-4 md:mt-5'}>
                     {para}
                   </p>
                 ))}
               </Reveal>
 
               <Reveal delay={0.2}>
-                <blockquote className="relative mt-8 rounded-3xl border border-gold/20 bg-cream/5 p-6 pl-14 font-display text-xl italic leading-snug text-cream md:text-2xl">
-                  <Quote className="absolute left-5 top-6 h-6 w-6 text-gold" aria-hidden />
+                <blockquote className="relative mt-6 rounded-2xl border border-gold/20 bg-cream/5 p-5 pl-12 font-display text-lg italic md:mt-8 md:rounded-3xl md:p-6 md:pl-14 md:text-xl leading-snug text-cream md:text-2xl">
+                  <Quote className="absolute left-4 top-5 h-5 w-5 text-gold md:left-5 md:top-6 md:h-6 md:w-6" aria-hidden />
                   <p>&ldquo;{CHEF.quote}&rdquo;</p>
                   <footer className="mt-4 font-sans text-sm font-semibold not-italic tracking-wide text-gold">&mdash; {CHEF.name}</footer>
                 </blockquote>
               </Reveal>
 
               <Reveal delay={0.3}>
-                <dl className="mt-10 grid grid-cols-3 gap-2 sm:gap-3 md:gap-6">
+                <dl className="mt-6 grid grid-cols-3 md:mt-10 gap-2 sm:gap-3 md:gap-6">
                   {CHEF.stats.map((s) => (
                     <div key={s.label} className="flex flex-col-reverse rounded-2xl border border-cream/10 bg-cream/[0.04] px-1.5 py-4 text-center md:p-5">
-                      <dt className="mt-1 text-[9px] font-bold uppercase tracking-[0.08em] text-cream/60 sm:text-[10px] sm:tracking-[0.16em] md:text-xs">{s.label}</dt>
+                      <dt className="mt-1 text-[11px] font-bold uppercase leading-tight tracking-[0.06em] text-cream/75 sm:text-xs sm:tracking-[0.16em]">{s.label}</dt>
                       <dd className="whitespace-nowrap font-display text-2xl font-semibold text-gold-light sm:text-3xl md:text-4xl">{s.value}</dd>
                     </div>
                   ))}
@@ -58,7 +58,7 @@ export default function Chef() {
             </div>
 
             <Reveal className="order-1 lg:order-2" y={50}>
-              <div className="relative mx-auto max-w-sm lg:max-w-none">
+              <div className="relative mx-auto max-w-[15rem] sm:max-w-sm lg:max-w-none">
                 <div aria-hidden className="absolute inset-0 translate-x-4 translate-y-4 rotate-3 rounded-[2rem] border-2 border-gold/40" />
                 <TiltCard max={9} innerClassName="rounded-[2rem]">
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-2xl">
@@ -68,7 +68,7 @@ export default function Chef() {
                         alt={CHEF.photoAlt}
                         fill
                         loading="lazy"
-                        sizes="(min-width: 1024px) 520px, (min-width: 640px) 384px, 90vw"
+                        sizes="(min-width: 1024px) 520px, (min-width: 640px) 384px, 240px"
                         className="object-cover object-[50%_30%] transition duration-700 hover:scale-105"
                         onError={() => setPhotoFailed(true)}
                       />
