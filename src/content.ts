@@ -24,16 +24,13 @@ export const ABOUT = {
 };
 
 export const CHEF = {
-  eyebrow: 'Meet the Chef',
-  name: 'Chef Akash Saini',
-  intro: 'He mixes modern pizza methods with bold, local flavors.',
-  points: [
-    {
-      label: 'Experience',
-      text: '5+ years in leading kitchens across India, including popular pizza brands like the Happy Funny Pizza franchise.',
-    },
-    { label: 'Speciality', text: 'Sourdough and thin-crust fusion pizzas.' },
-    { label: 'Promise', text: 'Quality ingredients and the same great taste, every time.' },
+  eyebrow: 'Meet the Founder',
+  name: 'Akash Saini',
+  role: 'Founder & Head Chef, Pahadi Pizza',
+  // A short note in the owner's own voice, shown as two paragraphs.
+  note: [
+    'I started Pahadi Pizza to bring great pizza home to Kaladhungi. For 5+ years I worked in leading kitchens across India, including popular pizza brands like the Happy Funny Pizza franchise. Now all of that goes into every pizza from our kitchen.',
+    'We make sourdough and thin-crust fusion pizzas with bold local flavors, using quality ingredients so you get the same great taste on every visit. Come in, sit down and enjoy. You are always welcome here.',
   ],
   quote: 'Great pizza is all about balance: authentic methods, fresh ingredients, and flavors people love.',
   stats: [

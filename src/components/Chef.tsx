@@ -26,24 +26,22 @@ export default function Chef() {
                   {CHEF.eyebrow}
                 </p>
                 <h2 className="font-display text-4xl font-semibold leading-[1.02] md:text-6xl">{CHEF.name}</h2>
+                <p className="mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-cream/70 md:text-base">{CHEF.role}</p>
               </Reveal>
 
               <Reveal delay={0.1} className="mt-8 text-lg leading-relaxed text-cream/75">
-                <p className="text-xl text-cream/90">{CHEF.intro}</p>
-                <ul className="mt-6 space-y-4">
-                  {CHEF.points.map((pt) => (
-                    <li key={pt.label} className="border-l-2 border-gold/50 pl-4">
-                      <span className="block text-xs font-bold uppercase tracking-[0.2em] text-gold">{pt.label}</span>
-                      <span className="mt-1 block">{pt.text}</span>
-                    </li>
-                  ))}
-                </ul>
+                {CHEF.note.map((para, i) => (
+                  <p key={i} className={i === 0 ? 'text-xl text-cream/90' : 'mt-5'}>
+                    {para}
+                  </p>
+                ))}
               </Reveal>
 
               <Reveal delay={0.2}>
                 <blockquote className="relative mt-8 rounded-3xl border border-gold/20 bg-cream/5 p-6 pl-14 font-display text-xl italic leading-snug text-cream md:text-2xl">
                   <Quote className="absolute left-5 top-6 h-6 w-6 text-gold" aria-hidden />
-                  &ldquo;{CHEF.quote}&rdquo;
+                  <p>&ldquo;{CHEF.quote}&rdquo;</p>
+                  <footer className="mt-4 font-sans text-sm font-semibold not-italic tracking-wide text-gold">&mdash; {CHEF.name}</footer>
                 </blockquote>
               </Reveal>
 
