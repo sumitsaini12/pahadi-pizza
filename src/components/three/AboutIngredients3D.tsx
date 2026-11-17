@@ -62,15 +62,15 @@ function Tomato() {
     <group rotation={[Math.PI / 2, 0, 0]}>
       <mesh>
         <cylinderGeometry args={[0.42, 0.42, 0.08, 40]} />
-        <meshStandardMaterial color={C.tomato} roughness={0.3} />
+        <meshStandardMaterial color={C.tomato} roughness={0.6} />
       </mesh>
       <mesh position={[0, 0.041, 0]}>
         <cylinderGeometry args={[0.35, 0.35, 0.004, 40]} />
-        <meshStandardMaterial color={C.tomatoFlesh} roughness={0.25} />
+        <meshStandardMaterial color={C.tomatoFlesh} roughness={0.6} />
       </mesh>
       <mesh position={[0, 0.044, 0]}>
         <cylinderGeometry args={[0.09, 0.09, 0.004, 20]} />
-        <meshStandardMaterial color={C.tomatoCore} roughness={0.3} />
+        <meshStandardMaterial color={C.tomatoCore} roughness={0.6} />
       </mesh>
       {[0, 1, 2, 3, 4].map((i) => {
         const a = (i / 5) * Math.PI * 2;
