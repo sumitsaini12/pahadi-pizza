@@ -40,13 +40,6 @@ export const CHEF = {
   photoFallback: 'https://images.unsplash.com/photo-1577219491135-ce391730fbaf?q=80&w=1200&auto=format&fit=crop',
 };
 
-export const GALLERY_IMAGES = [
-  'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=1200',
-  'https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=1200',
-];
-
 export const MAP_QUERY = 'Main Chauraha, Kaladhungi, Uttarakhand, India';
 export const MAP_EMBED_URL = `https://maps.google.com/maps?q=${encodeURIComponent(MAP_QUERY)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
 export const MAP_TITLE = 'Pahadi Pizza Location - Main Chauraha, Kaladhungi';
