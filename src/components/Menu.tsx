@@ -48,7 +48,7 @@ export default function Menu() {
   }, {});
 
   return (
-    <section id="menu" className="grain relative overflow-hidden bg-charcoal py-24 text-cream md:py-32">
+    <section id="menu" className="grain relative overflow-clip bg-charcoal py-24 text-cream md:py-32">
       <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(233,169,59,0.14),transparent_55%),radial-gradient(ellipse_at_bottom_right,rgba(200,54,31,0.18),transparent_50%)]" />
 
       <div className="relative z-[2] mx-auto max-w-7xl px-4 md:px-8">
