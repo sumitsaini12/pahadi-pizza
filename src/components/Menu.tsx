@@ -3,36 +3,13 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  MessageCircle,
-  Phone,
-  Star,
-  Pizza,
-  Popcorn,
-  UtensilsCrossed,
-  Hamburger,
-  CookingPot,
-  Soup,
-  CupSoda,
-  type LucideIcon,
-} from 'lucide-react';
+import { MessageCircle, Phone, Star } from 'lucide-react';
 import { MENU_ITEMS } from '../data';
 import { MenuItem } from '../types';
 import { TEL_PRIMARY, orderMessageUrl } from '../content';
-import Reveal from './motion/Reveal';
 import TiltCard from './motion/TiltCard';
-
-const CATEGORIES: { id: MenuItem['category']; icon: LucideIcon }[] = [
-  { id: 'Veg Pizzas', icon: Pizza },
-  { id: 'Starters', icon: Popcorn },
-  { id: 'Pasta', icon: UtensilsCrossed },
-  { id: 'Burger', icon: Hamburger },
-  { id: 'Momo', icon: CookingPot },
-  { id: 'Chowmein', icon: Soup },
-  { id: 'Shake', icon: CupSoda },
-];
-
-const FALLBACK_IMG = 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=800';
+import MobileMenu from './menu/MobileMenu';
+import { CATEGORIES, FALLBACK_IMG, sizeLabel } from './menu/categories';
 
 export default function Menu() {
   const [active, setActive] = useState<MenuItem['category']>('Veg Pizzas');
@@ -48,22 +25,26 @@ export default function Menu() {
   }, {});
 
   return (
-    <section id="menu" className="grain relative overflow-clip bg-charcoal py-24 text-cream md:py-32">
+    <section id="menu" className="cv-auto grain relative overflow-clip bg-charcoal pb-16 pt-10 text-cream md:py-32">
       <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(233,169,59,0.14),transparent_55%),radial-gradient(ellipse_at_bottom_right,rgba(200,54,31,0.18),transparent_50%)]" />
 
       <div className="relative z-[2] mx-auto max-w-7xl px-4 md:px-8">
-        <Reveal className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-gold">Artisanal Selection</p>
-          <h2 className="font-display text-4xl font-semibold leading-[1.05] md:text-6xl">
+        {/* Not a Reveal: on phones this header is often the first thing seen after tapping "Menu". */}
+        <div className="mx-auto mb-5 max-w-2xl text-left md:mb-16 md:text-center">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.28em] text-gold md:mb-4">Artisanal Selection</p>
+          <h2 className="font-display text-[2.15rem] font-semibold leading-[1.05] md:text-6xl">
             Our Curated <span className="italic text-gold-light">Menu</span>
           </h2>
-          <p className="mt-5 text-lg leading-relaxed text-cream/70">
+          <p className="mt-3 text-base leading-relaxed text-cream/80 md:mt-5 md:text-lg md:text-cream/70">
             Handcrafted delicacies made with fresh ingredients and authentic hill-inspired flavors.
           </p>
-        </Reveal>
+        </div>
 
-        {/* Category switcher */}
-        <div className="sticky top-[68px] z-20 -mx-4 mb-12 px-4 md:static md:mx-0 md:px-0">
+        <MobileMenu />
+
+        {/* Tablet and desktop: category tabs over a card grid */}
+        <div className="hidden md:block">
+        <div className="mb-12">
           <div
             role="tablist"
             aria-label="Menu categories"
@@ -162,6 +143,7 @@ export default function Menu() {
             </motion.div>
           </AnimatePresence>
         </div>
+        </div>
       </div>
     </section>
   );
@@ -215,7 +197,7 @@ function MenuCard({ item }: { item: MenuItem }) {
           {multi && (
             <div className="mt-5">
               <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-muted">
-                {['Momo', 'Chowmein'].includes(item.category) ? 'Quantity' : 'Select Size'}
+                {sizeLabel(item)}
               </p>
               <div className="flex gap-1 rounded-2xl bg-cream-2 p-1" role="radiogroup" aria-label={`${item.name} size`}>
                 {item.variants.map((v, i) => (
