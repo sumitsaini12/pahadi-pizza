@@ -90,7 +90,7 @@ export default function Header() {
         }`}
       >
         {/* Phones: one fixed 64px bar, so sticky elements below it never shift. */}
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 md:h-auto md:px-8">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] md:h-auto md:pl-[max(2rem,env(safe-area-inset-left))] md:pr-[max(2rem,env(safe-area-inset-right))]">
           <a href="#top" className="group flex min-h-11 items-center gap-3" aria-label={`${BRAND_NAME} – back to top`}>
             <span className="relative block h-10 w-10 overflow-hidden rounded-full ring-2 ring-gold/50 transition group-hover:ring-gold md:h-12 md:w-12">
               <Image src="/app-logo.png" alt="Pahadi Pizza Logo" width={48} height={48} priority className="h-full w-full object-cover" />
@@ -172,7 +172,7 @@ export default function Header() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'tween', duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-x-0 bottom-0 max-h-[88svh] overflow-y-auto rounded-t-[1.75rem] border-t border-cream/10 bg-charcoal px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 text-cream shadow-[0_-20px_60px_-10px_rgba(0,0,0,0.7)]"
+              className="absolute inset-x-0 bottom-0 max-h-[88svh] overflow-y-auto rounded-t-[1.75rem] border-t border-cream/10 bg-charcoal pb-[max(1rem,env(safe-area-inset-bottom))] pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-3 text-cream shadow-[0_-20px_60px_-10px_rgba(0,0,0,0.7)]"
             >
               <div aria-hidden className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-cream/25" />
               <div className="mb-3 flex items-center justify-between">

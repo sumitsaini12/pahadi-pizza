@@ -15,7 +15,7 @@ export default function StickyCTA() {
   return (
     <nav
       aria-label="Quick actions"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-cream/10 bg-espresso/95 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-12px_30px_-12px_rgba(0,0,0,0.6)] backdrop-blur-md md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-cream/10 bg-espresso/95 pb-[max(0.5rem,env(safe-area-inset-bottom))] pl-[max(0.5rem,env(safe-area-inset-left))] pr-[max(0.5rem,env(safe-area-inset-right))] pt-2 shadow-[0_-12px_30px_-12px_rgba(0,0,0,0.6)] backdrop-blur-md md:hidden"
     >
       <div className="mx-auto flex max-w-md gap-1.5">
         <a href={TEL_PRIMARY} aria-label={`Call ${PHONE_PRIMARY}`} className={`${base} bg-tomato text-white active:bg-tomato-dark`}>

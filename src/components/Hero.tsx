@@ -103,7 +103,7 @@ export default function Hero() {
             initial={{ y: 30 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center justify-between gap-3 font-display text-[clamp(2.9rem,13vw,7.25rem)] font-semibold leading-[0.95] tracking-tight md:block"
+            className="flex items-center justify-between gap-3 font-display text-[clamp(2.9rem,min(13vw,12svh),4.5rem)] font-semibold leading-[0.95] tracking-tight md:block md:text-[clamp(3.2rem,9vw,7.25rem)]"
           >
             <span>
               Pahadi{' '}
