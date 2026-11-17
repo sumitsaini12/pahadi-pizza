@@ -51,7 +51,12 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 88px;
+  /* Phones: fixed 64px header; larger screens: taller header. */
+  scroll-padding-top: 72px;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (min-width: 768px) {
+  html { scroll-padding-top: 88px; }
 }
 
 body {
@@ -98,6 +103,14 @@ body {
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 .text-balance { text-wrap: balance; }
+
+/* Long sections below the first screen: the browser skips their layout,
+   paint and image loading until they come near the viewport. The intrinsic
+   size is remembered once rendered, and scroll anchoring keeps the view steady. */
+:root:not(.cv-off) .cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1600px;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
