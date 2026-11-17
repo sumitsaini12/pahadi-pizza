@@ -5,8 +5,14 @@ It works in one of two modes:
 
 | Mode | When | What visitors see |
 | --- | --- | --- |
-| **Live feed** | `INSTAGRAM_ACCESS_TOKEN` is set | The latest 9 posts (photos, reels with muted autoplay, carousels), with captions and dates in a lightbox. New uploads appear on their own within about 30 minutes. |
-| **Curated embeds** | No token, or the API is unavailable | The posts listed in `src/instagram-posts.ts`, shown through Instagram's official embed. This list is fixed: new uploads do **not** appear until someone edits the list. |
+| **Live feed** | `INSTAGRAM_ACCESS_TOKEN` is set | Up to 48 of the latest posts (the API is paged through), newest first, in the reel strip. Pressing a reel opens the theatre and plays the video file straight away in the site's own player. New uploads appear on their own within about 30 minutes. |
+| **Curated embeds** | No token, or the API is unavailable | The reels and posts listed in `src/instagram-posts.ts`, played inside the theatre through Instagram's official embed (the visitor presses play on the video). This list is fixed: new uploads do **not** appear until someone edits the list. |
+
+### Why some reels are not in the strip without a token
+
+Instagram's embed refuses to play some reels on other websites (usually reels with licensed music) and shows only *Watch on Instagram*.
+Those reels are kept in `src/instagram-posts.ts` with `playsInline: false` and left out of the strip, so every play button on the site plays the video right there.
+With a token, the API returns the video file for them too, and they play in the site's own player.
 
 The token is read only on the server (`src/lib/instagram.ts`) and is never sent to the browser.
 

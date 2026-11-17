@@ -1,21 +1,41 @@
-import { getInstagramMedia } from '../lib/instagram';
-import { FEATURED_POSTS } from '../instagram-posts';
-import InstagramGallery from './gallery/InstagramGallery';
+import { getInstagramMedia, type InstagramMedia } from '../lib/instagram';
+import { postUrl, showcasePosts } from '../instagram-posts';
+import ReelGallery from './gallery/ReelGallery';
+import type { ReelItem } from './gallery/types';
+import { captionHeadline } from './gallery/format';
+
+/** How many posts the live feed shows (the API is paged through until this many are in). */
+const LIVE_LIMIT = 48;
 
 /**
- * Gallery of the restaurant's real Instagram posts.
- * With INSTAGRAM_ACCESS_TOKEN set it shows the live feed (re-fetched every 30 minutes);
- * without it, it shows the curated posts in src/instagram-posts.ts through Instagram's own embed.
+ * Reel strip of the restaurant's real Instagram posts.
+ * With INSTAGRAM_ACCESS_TOKEN set it shows the live feed (re-fetched every 30 minutes) and plays
+ * videos with the site's own player; without it, it shows the curated reels in
+ * src/instagram-posts.ts and plays them through Instagram's official embed.
  */
-/** One feature tile plus eight small ones fills the grid exactly at 2, 3 and 4 columns. */
-const LIVE_TILES = 9;
-
 export default async function Gallery() {
-  // Ask for a few extra, since posts without a usable media URL are skipped.
-  const media = await getInstagramMedia(LIVE_TILES + 3);
-  return media ? (
-    <InstagramGallery mode="live" media={media.slice(0, LIVE_TILES)} />
-  ) : (
-    <InstagramGallery mode="embed" posts={FEATURED_POSTS} />
-  );
+  const media = await getInstagramMedia(LIVE_LIMIT);
+  if (media) return <ReelGallery mode="live" items={media.map(fromMedia)} />;
+
+  const items: ReelItem[] = showcasePosts().map((p) => ({
+    id: p.code,
+    kind: p.kind === 'reel' ? 'video' : 'image',
+    label: p.label,
+    date: p.date,
+    permalink: postUrl(p),
+    embedUrl: `${postUrl(p)}embed/`,
+  }));
+  return <ReelGallery mode="embed" items={items} />;
+}
+
+function fromMedia(m: InstagramMedia): ReelItem {
+  return {
+    id: m.id,
+    kind: m.mediaType === 'VIDEO' ? 'video' : m.mediaType === 'CAROUSEL_ALBUM' ? 'album' : 'image',
+    label: captionHeadline(m.caption, 70) || (m.mediaType === 'VIDEO' ? 'A reel from our kitchen' : 'From our kitchen'),
+    caption: m.caption,
+    date: m.timestamp,
+    permalink: m.permalink,
+    media: m,
+  };
 }

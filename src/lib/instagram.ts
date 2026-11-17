@@ -47,34 +47,42 @@ type RawMedia = {
   children?: { data: { id: string; media_type: InstagramMediaType; media_url?: string; thumbnail_url?: string }[] };
 };
 
+/** Pages of up to 50 posts each that one request may follow. */
+const MAX_PAGES = 4;
+
 /**
- * Returns the latest posts, or null when no token is configured or the API call fails.
+ * Returns up to `limit` of the latest posts, newest first, following the API's paging cursor,
+ * or null when no token is configured or the API call fails.
  * A null result makes the gallery fall back to the curated embeds in src/instagram-posts.ts.
  */
-export async function getInstagramMedia(limit = 12): Promise<InstagramMedia[] | null> {
+export async function getInstagramMedia(limit = 48): Promise<InstagramMedia[] | null> {
   const token = process.env.INSTAGRAM_ACCESS_TOKEN?.trim();
   if (!token) return null;
 
   const userId = process.env.INSTAGRAM_USER_ID?.trim() || 'me';
-  const url = new URL(`https://graph.instagram.com/${API_VERSION}/${encodeURIComponent(userId)}/media`);
-  url.searchParams.set('fields', FIELDS);
-  url.searchParams.set('limit', String(limit));
-  url.searchParams.set('access_token', token);
+  const first = new URL(`https://graph.instagram.com/${API_VERSION}/${encodeURIComponent(userId)}/media`);
+  first.searchParams.set('fields', FIELDS);
+  first.searchParams.set('limit', String(Math.min(limit, 50)));
+  first.searchParams.set('access_token', token);
 
+  const items: InstagramMedia[] = [];
+  let next: string | undefined = first.toString();
   try {
-    const res = await fetch(url, { next: { revalidate: REVALIDATE_SECONDS, tags: ['instagram'] } });
-    if (!res.ok) {
-      // Log the status only: the URL carries the token.
-      console.warn(`[instagram] media request failed with HTTP ${res.status}; showing fallback posts.`);
-      return null;
+    for (let page = 0; next && page < MAX_PAGES && items.length < limit; page++) {
+      const res = await fetch(next, { next: { revalidate: REVALIDATE_SECONDS, tags: ['instagram'] } });
+      if (!res.ok) {
+        // Log the status only: request URLs, including the paging cursors, carry the token.
+        console.warn(`[instagram] media request failed with HTTP ${res.status}; showing ${items.length ? 'what loaded so far' : 'fallback posts'}.`);
+        break;
+      }
+      const json = (await res.json()) as { data?: RawMedia[]; paging?: { next?: string } };
+      items.push(...(json.data ?? []).map(normalise).filter((m): m is InstagramMedia => m !== null));
+      next = json.paging?.next;
     }
-    const json = (await res.json()) as { data?: RawMedia[] };
-    const items = (json.data ?? []).map(normalise).filter((m): m is InstagramMedia => m !== null);
-    return items.length > 0 ? items : null;
   } catch {
     console.warn('[instagram] media request threw; showing fallback posts.');
-    return null;
   }
+  return items.length > 0 ? items.slice(0, limit) : null;
 }
 
 function normalise(raw: RawMedia): InstagramMedia | null {

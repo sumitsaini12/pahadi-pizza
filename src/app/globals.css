@@ -107,3 +107,19 @@ body {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Reel strip: full-bleed scroller whose first card lines up with the page container. */
+.reel-strip {
+  --reel-gutter: max(1rem, calc((100vw - 80rem) / 2 + 1rem));
+  padding-inline: var(--reel-gutter);
+  scroll-padding-inline: var(--reel-gutter);
+  scrollbar-width: none;
+}
+.reel-strip::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .reel-strip {
+    --reel-gutter: max(2rem, calc((100vw - 80rem) / 2 + 2rem));
+  }
+}
