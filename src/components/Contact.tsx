@@ -1,5 +1,5 @@
-import { MapPin, Phone, Clock, Navigation, Instagram } from 'lucide-react';
-import { ADDRESS, PHONE_PRIMARY, PHONE_SECONDARY, OPENING_HOURS, INSTAGRAM_URL } from '../constants';
+import { MapPin, Phone, Clock, Navigation, Instagram, Youtube } from 'lucide-react';
+import { ADDRESS, PHONE_PRIMARY, PHONE_SECONDARY, OPENING_HOURS, INSTAGRAM_URL, YOUTUBE_URL } from '../constants';
 import { MAP_EMBED_URL, MAP_TITLE } from '../content';
 import Reveal from './motion/Reveal';
 
@@ -57,7 +57,7 @@ export default function Contact() {
             </Reveal>
           </div>
 
-          <Reveal delay={0.2} className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <Reveal delay={0.2} className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <a
               href={INSTAGRAM_URL}
               target="_blank"
@@ -66,6 +66,15 @@ export default function Contact() {
             >
               <Instagram className="h-5 w-5" aria-hidden />
               Follow on Instagram
+            </a>
+            <a
+              href={YOUTUBE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-3 rounded-full bg-[#ff0000] px-7 py-4 font-bold text-white shadow-lg shadow-[#ff0000]/20 transition hover:-translate-y-0.5"
+            >
+              <Youtube className="h-5 w-5" aria-hidden />
+              Watch on YouTube
             </a>
             <a
               href={`https://www.google.com/maps/search/${encodeURIComponent(ADDRESS)}`}

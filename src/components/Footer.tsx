@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Instagram, Facebook, Twitter, MessageCircle, MapPin, Phone, Mail } from 'lucide-react';
-import { BRAND_NAME, TAGLINE, ADDRESS, PHONE_PRIMARY, INSTAGRAM_URL, EMAIL_ADDRESS, WHATSAPP_NUMBER } from '../constants';
+import { Instagram, Youtube, MessageCircle, MapPin, Phone, Mail } from 'lucide-react';
+import { BRAND_NAME, TAGLINE, ADDRESS, PHONE_PRIMARY, INSTAGRAM_URL, YOUTUBE_URL, EMAIL_ADDRESS, WHATSAPP_NUMBER } from '../constants';
 import { CREDIT, FOOTER_BLURB, WHATSAPP_GROUP_MESSAGE, TEL_PRIMARY } from '../content';
 
 const LINKS = [
@@ -50,17 +50,20 @@ export default function Footer() {
                 href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Instagram"
+                aria-label="Pahadi Pizza on Instagram"
                 className="grid h-11 w-11 place-items-center rounded-full border border-cream/15 transition hover:border-tomato hover:bg-tomato"
               >
                 <Instagram className="h-5 w-5" aria-hidden />
               </a>
-              <span aria-label="Facebook (coming soon)" role="img" className="grid h-11 w-11 cursor-not-allowed place-items-center rounded-full border border-cream/10 opacity-40">
-                <Facebook className="h-5 w-5" aria-hidden />
-              </span>
-              <span aria-label="Twitter (coming soon)" role="img" className="grid h-11 w-11 cursor-not-allowed place-items-center rounded-full border border-cream/10 opacity-40">
-                <Twitter className="h-5 w-5" aria-hidden />
-              </span>
+              <a
+                href={YOUTUBE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Pahadi Pizza on YouTube"
+                className="grid h-11 w-11 place-items-center rounded-full border border-cream/15 transition hover:border-[#ff0000] hover:bg-[#ff0000]"
+              >
+                <Youtube className="h-5 w-5" aria-hidden />
+              </a>
             </div>
           </div>
 
