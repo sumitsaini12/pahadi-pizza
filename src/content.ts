@@ -35,7 +35,7 @@ export const CHEF = {
   quote: 'Great pizza is all about balance: authentic methods, fresh ingredients, and flavors people love.',
   stats: [
     { value: '5+', label: 'Years Experience' },
-    { value: '100k+', label: 'Pizzas Served' },
+    { value: '500k+', label: 'Pizzas Served' },
     { value: 'Top 1', label: 'In Kaladhungi' },
   ],
   // Stored in the project so the photo never depends on an outside host.
