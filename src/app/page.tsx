@@ -6,6 +6,7 @@ import Menu from '../components/Menu';
 import Chef from '../components/Chef';
 import Gallery from '../components/Gallery';
 import Reviews from '../components/Reviews';
+import GoogleReviews from '../components/GoogleReviews';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import StickyCTA from '../components/StickyCTA';
@@ -29,6 +30,7 @@ export default function Home() {
         <Chef />
         <Gallery />
         <Reviews />
+        <GoogleReviews />
         <Contact />
       </main>
       <Footer />
