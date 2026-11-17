@@ -44,6 +44,8 @@ export default function ReelStrip({ items, paused, inline, onOpen }: Props) {
   const auto = wide && !reduced;
 
   const [inView, setInView] = useState(false);
+  /** The strip is within a few screens: start loading its posters and players. */
+  const [approaching, setApproaching] = useState(false);
   const [near, setNear] = useState<boolean[]>(() => items.map(() => false));
   const [progress, setProgress] = useState(0);
   const [current, setCurrent] = useState(0);
@@ -96,7 +98,7 @@ export default function ReelStrip({ items, paused, inline, onOpen }: Props) {
       if (shown < MIN_VISIBLE_TO_KEEP_PLAYING) play(null);
     }
 
-    if (!inView) return;
+    if (!approaching) return;
     const lo = Math.max(0, first - PRELOAD_CARDS);
     const hi = Math.min(items.length - 1, first + visible + PRELOAD_CARDS);
     setNear((prev) => {
@@ -105,7 +107,7 @@ export default function ReelStrip({ items, paused, inline, onOpen }: Props) {
       const next = prev.map((v, i) => (i >= lo && i <= hi) || (!inline && v));
       return next.every((v, i) => v === prev[i]) ? prev : next;
     });
-  }, [inView, inline, items.length, stepSize, play]);
+  }, [approaching, inline, items.length, stepSize, play]);
 
   // Curated reels on phones play inside Instagram's embed, which tells the page nothing. A tap there moves focus
   // into that embed, so while the strip is on screen the page checks which reel's embed holds focus
@@ -114,7 +116,8 @@ export default function ReelStrip({ items, paused, inline, onOpen }: Props) {
     if (!inline || !inView) return;
     const check = () => {
       const a = document.activeElement;
-      if (!(a instanceof HTMLIFrameElement) || !scroller.current?.contains(a)) return;
+      // Only a ready player plays on a tap; focus in a still-loading embed is not a playing reel.
+      if (!(a instanceof HTMLIFrameElement) || !a.dataset.ready || !scroller.current?.contains(a)) return;
       const id = a.closest<HTMLElement>('li[data-id]')?.dataset.id;
       if (id) play(id);
     };
@@ -132,13 +135,19 @@ export default function ReelStrip({ items, paused, inline, onOpen }: Props) {
     if (paused || !inline) play(null);
   }, [paused, inline, play]);
 
-  // Posters only start loading once the strip is close to the viewport.
+  // Posters and players only start loading once the strip is getting close to the viewport.
   useEffect(() => {
     const el = section.current;
     if (!el) return;
     const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { rootMargin: '400px 0px' });
+    // Instagram's players take a moment to get ready after loading, so they start well before the strip is reached.
+    const early = new IntersectionObserver(([e]) => e.isIntersecting && setApproaching(true), { rootMargin: '1500px 0px' });
     io.observe(el);
-    return () => io.disconnect();
+    early.observe(el);
+    return () => {
+      io.disconnect();
+      early.disconnect();
+    };
   }, []);
 
   useEffect(() => {

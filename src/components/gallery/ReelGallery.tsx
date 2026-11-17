@@ -19,7 +19,7 @@ export default function ReelGallery({ mode, items }: Props) {
   const reels = items.filter((i) => i.kind === 'video').length;
 
   return (
-    <section id="gallery" aria-labelledby="gallery-title" className="relative overflow-hidden bg-cream pb-24 md:pb-32">
+    <section id="gallery" aria-labelledby="gallery-title" className="relative overflow-hidden bg-cream pb-24 pt-12 md:pb-32 md:pt-16">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <Reveal className="mb-10 flex flex-col items-start justify-between gap-6 md:mb-12 md:flex-row md:items-end">
           <div>

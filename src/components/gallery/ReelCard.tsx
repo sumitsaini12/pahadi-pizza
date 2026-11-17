@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { Images, Instagram, Play, Volume2, VolumeX, X } from 'lucide-react';
+import { Images, Instagram, Loader2, Play, Volume2, VolumeX, X } from 'lucide-react';
 import EmbedFrame from './EmbedFrame';
 import { formatPostDate } from './format';
 import { startPlayback } from './playback';
@@ -33,8 +33,10 @@ type Props = {
  * a branded placeholder keeps the card's size, so nothing shifts.
  *
  * On phones a reel plays inside the card on the first tap:
- * - Curated reels: the cropped embed itself takes the tap (our play button lets it through below 768px),
- *   so the tap lands on Instagram's own player and starts it. Instagram's player pauses on a second tap.
+ * - Curated reels: once Instagram's player inside the cropped embed is ready (it posts MOUNTED), the embed itself
+ *   takes the tap (our play button lets it through below 768px), so the tap lands on Instagram's own player and
+ *   starts it. Instagram's player pauses on a second tap. A tap before then would be swallowed by the
+ *   still-loading embed, so our button takes it instead and shows that the reel is loading.
  * - Live API reels: our own <video> plays from the tap, with sound when the browser allows it,
  *   muted with an unmute button when it does not. A second tap pauses.
  * A sideways swipe scrolls the strip and never starts a reel.
@@ -53,6 +55,15 @@ export default function ReelCard({ item, index, total, near, inline, playing, on
   const video = useRef<HTMLVideoElement>(null);
   const [paused, setPaused] = useState(true);
   const [muted, setMuted] = useState(false);
+  /** Instagram's player in a curated reel's embed is ready, so a tap on the card lands on it and plays. */
+  const [embedReady, setEmbedReady] = useState(false);
+  /** Phones: the card was tapped before the embed was ready. */
+  const [waiting, setWaiting] = useState(false);
+  const liveTap = tapThrough && embedReady;
+  const onEmbedReady = useCallback(() => {
+    setEmbedReady(true);
+    setWaiting(false);
+  }, []);
 
   // Another card started, or the card left the screen: stop this one.
   useEffect(() => {
@@ -70,6 +81,11 @@ export default function ReelCard({ item, index, total, near, inline, playing, on
       // play() must run inside the tap itself, or iPhones refuse it.
       startPlayback(v, setMuted);
       onPlay();
+      return;
+    }
+    if (inline && tapThrough && !embedReady) {
+      // Instagram's player is still loading: a tap now would be lost. Say so; the card takes taps once it is ready.
+      setWaiting(true);
       return;
     }
     if (inline && !isVideo) {
@@ -120,6 +136,7 @@ export default function ReelCard({ item, index, total, near, inline, playing, on
               shape={isVideo ? 'reel' : 'post'}
               inert
               tapThrough={tapThrough}
+              onReady={onEmbedReady}
             />
           ) : null)}
 
@@ -140,7 +157,7 @@ export default function ReelCard({ item, index, total, near, inline, playing, on
           onClick={onClick}
           aria-label={label}
           className={`absolute inset-0 z-10 flex items-center justify-center rounded-[1.6rem] outline-none focus-visible:ring-4 focus-visible:ring-gold/80 focus-visible:ring-inset ${
-            tapThrough ? 'max-md:pointer-events-none' : ''
+            liveTap ? 'max-md:pointer-events-none' : ''
           }`}
         >
           <span
@@ -150,9 +167,21 @@ export default function ReelCard({ item, index, total, near, inline, playing, on
             } ${showPlayIcon ? '' : 'scale-75 opacity-0'}`}
           >
             {isVideo && <span className="absolute inset-0 rounded-full ring-2 ring-tomato/60 transition duration-500 group-hover/card:scale-125 group-hover/card:opacity-0 motion-reduce:hidden" />}
-            {isVideo ? <Play className="ml-1 h-7 w-7 fill-current" /> : <Images className="h-6 w-6" />}
+            {waiting && !embedReady ? (
+              <Loader2 className="h-7 w-7 animate-spin motion-reduce:animate-none" />
+            ) : isVideo ? (
+              <Play className="ml-1 h-7 w-7 fill-current" />
+            ) : (
+              <Images className="h-6 w-6" />
+            )}
           </span>
         </button>
+
+        {waiting && !embedReady && (
+          <p role="status" className="pointer-events-none absolute inset-x-0 top-[62%] z-20 text-center text-xs font-semibold text-cream">
+            Loading reel… tap again in a moment
+          </p>
+        )}
 
         <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-2 p-3.5">
           {playing ? (
