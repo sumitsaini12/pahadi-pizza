@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowUpRight, ChevronLeft, ChevronRight, Hand, Play, X } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight, Hand, Play, VolumeX, X } from 'lucide-react';
 import EmbedFrame from './EmbedFrame';
 import { formatPostDate } from './format';
+import { startPlayback } from './playback';
 import type { ReelItem } from './types';
 import { INSTAGRAM_HANDLE } from '../../constants';
 
@@ -15,9 +16,10 @@ const UP_NEXT = 3;
 
 /**
  * Full-screen theatre that plays a reel on the page.
- * Live API posts play in our own <video> player, started by the click that opened the theatre.
- * Curated posts play inside Instagram's official embed, cropped to the video frame: Instagram does not
- * let a page start its player, so the visitor presses play on the video itself.
+ * Live API posts play in our own <video> player, which starts by itself as soon as the theatre opens or steps
+ * to the next reel: with sound when the browser allows it, otherwise muted with a "Tap for sound" button.
+ * Curated posts play inside Instagram's official embed, cropped to the video frame. Instagram's embed has no
+ * autoplay option and takes no play command from the page, so the visitor presses play on the video itself.
  * Keyboard: Escape closes, left and right arrows step, Tab stays inside. Touch: swipe left or right.
  */
 export default function Theatre({ items, index, onChange }: Props) {
@@ -151,7 +153,7 @@ export default function Theatre({ items, index, onChange }: Props) {
               {item.embedUrl && item.kind === 'video' && (
                 <p className="mt-4 flex items-center gap-2 text-sm text-cream/70">
                   <Hand className="h-4 w-4 shrink-0 text-gold-light" aria-hidden />
-                  Press play on the video to watch it here.
+                  Press play on the video to start it. Instagram only lets its own play button start its reels.
                 </p>
               )}
               <a
@@ -243,6 +245,13 @@ function MediaStage({ item }: { item: ReelItem }) {
   const [slide, setSlide] = useState(0);
   const current = slides[Math.min(slide, slides.length - 1)];
   const isVideo = current.mediaType === 'VIDEO';
+  const video = useRef<HTMLVideoElement>(null);
+  const [muted, setMuted] = useState(false);
+
+  // Start each video as soon as it is shown: the click that opened the theatre, or stepped to this reel, lets it play.
+  useEffect(() => {
+    if (isVideo && video.current) startPlayback(video.current, setMuted);
+  }, [isVideo, current.mediaUrl]);
 
   return (
     <div
@@ -252,16 +261,32 @@ function MediaStage({ item }: { item: ReelItem }) {
     >
       {isVideo ? (
         <video
+          ref={video}
           key={current.mediaUrl}
           src={current.mediaUrl}
           poster={current.thumbnailUrl}
           controls
-          autoPlay
           playsInline
+          onVolumeChange={(e) => setMuted(e.currentTarget.muted)}
           className="absolute inset-0 h-full w-full object-contain"
         />
       ) : (
         <Image key={current.mediaUrl} src={current.mediaUrl} alt={item.label} fill unoptimized sizes="(min-width: 768px) 50vw, 100vw" className="object-contain" />
+      )}
+      {isVideo && muted && (
+        <button
+          type="button"
+          onClick={() => {
+            const v = video.current;
+            if (!v) return;
+            v.muted = false;
+            if (v.paused) startPlayback(v, setMuted);
+          }}
+          className="absolute left-1/2 top-4 z-10 inline-flex -translate-x-1/2 items-center gap-2 rounded-full bg-tomato px-4 py-2 text-sm font-semibold text-cream shadow-lg transition hover:bg-tomato-dark"
+        >
+          <VolumeX className="h-4 w-4" aria-hidden />
+          Tap for sound
+        </button>
       )}
       {slides.length > 1 && (
         <div className="absolute inset-x-0 bottom-3 flex justify-center gap-1.5">
