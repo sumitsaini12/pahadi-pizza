@@ -69,7 +69,8 @@ export default function HeroVisual() {
             alt="A freshly baked Pahadi Pizza topped with melted cheese and vegetables"
             fill
             priority
-            sizes="(min-width: 1024px) 460px, (min-width: 768px) 50vw, 80vw"
+            /* Hidden below md (the hero shows a small photo there), so phones fetch only the tiniest candidate. */
+            sizes="(min-width: 1024px) 460px, (min-width: 768px) 50vw, 1px"
             className="object-cover scale-[1.35]"
           />
         </div>
