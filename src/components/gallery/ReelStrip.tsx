@@ -11,11 +11,17 @@ const AUTO_ADVANCE_MS = 3600;
 const RESUME_AFTER_MS = 7000;
 /** Cards beyond each edge of the visible strip whose posters are loaded ahead of time. */
 const PRELOAD_CARDS = 2;
+/** How often, on phones while the strip is on screen, it checks which reel's embed holds focus. */
+const FOCUS_POLL_MS = 250;
+/** A playing reel stops once less than this share of it is left on screen. */
+const MIN_VISIBLE_TO_KEEP_PLAYING = 0.35;
 
 type Props = {
   items: ReelItem[];
   /** Pauses auto-advance, e.g. while the theatre is open. */
   paused: boolean;
+  /** Phones: reels play inside their card on the first tap; no theatre opens. */
+  inline: boolean;
   onOpen: (index: number) => void;
 };
 
@@ -24,8 +30,12 @@ type Props = {
  * arrow buttons, keyboard arrows between cards, and a gentle auto-advance that loops back to
  * the first reel (wide screens only). Auto-advance stops on hover, focus, interaction, while the theatre is open,
  * off screen, in a background tab, for reduced motion, or with the pause button.
+ *
+ * On phones only one reel plays at a time. Starting another, pressing Stop, or swiping the reel away
+ * stops it. Instagram's embed cannot be paused from the page, so a curated reel is stopped by reloading
+ * its embed, which also puts its poster back.
  */
-export default function ReelStrip({ items, paused, onOpen }: Props) {
+export default function ReelStrip({ items, paused, inline, onOpen }: Props) {
   const scroller = useRef<HTMLUListElement>(null);
   const section = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
@@ -43,6 +53,19 @@ export default function ReelStrip({ items, paused, onOpen }: Props) {
   const [lastTouch, setLastTouch] = useState(0);
   const [pageVisible, setPageVisible] = useState(true);
   const [now, setNow] = useState(0);
+  /** Id of the reel playing inside its card (phones). */
+  const [playing, setPlaying] = useState<string | null>(null);
+  const playingRef = useRef<string | null>(null);
+  /** Bumped per reel to remount its player, the only way to stop Instagram's embed. */
+  const [resets, setResets] = useState<Record<string, number>>({});
+
+  const play = useCallback((id: string | null) => {
+    const prev = playingRef.current;
+    if (prev === id) return;
+    playingRef.current = id;
+    setPlaying(id);
+    if (prev) setResets((r) => ({ ...r, [prev]: (r[prev] ?? 0) + 1 }));
+  }, []);
 
   /** Distance between the starts of two neighbouring cards. */
   const stepSize = useCallback(() => {
@@ -62,14 +85,52 @@ export default function ReelStrip({ items, paused, onOpen }: Props) {
     const first = Math.round(el.scrollLeft / step);
     const visible = Math.ceil(el.clientWidth / step);
     setCurrent(Math.min(first, items.length - 1));
+
+    // A reel swiped (mostly) off screen stops.
+    const id = playingRef.current;
+    if (id) {
+      const card = el.querySelector<HTMLElement>(`li[data-id="${CSS.escape(id)}"]`);
+      const box = el.getBoundingClientRect();
+      const r = card?.getBoundingClientRect();
+      const shown = r ? Math.max(0, Math.min(r.right, box.right) - Math.max(r.left, box.left)) / r.width : 0;
+      if (shown < MIN_VISIBLE_TO_KEEP_PLAYING) play(null);
+    }
+
     if (!inView) return;
+    const lo = Math.max(0, first - PRELOAD_CARDS);
+    const hi = Math.min(items.length - 1, first + visible + PRELOAD_CARDS);
     setNear((prev) => {
-      const lo = Math.max(0, first - PRELOAD_CARDS);
-      const hi = Math.min(items.length - 1, first + visible + PRELOAD_CARDS);
-      if (prev.slice(lo, hi + 1).every(Boolean)) return prev;
-      return prev.map((v, i) => v || (i >= lo && i <= hi));
+      // Phones keep players only around the visible cards, so a reel far behind cannot keep playing
+      // and memory stays low. Wide screens keep loaded posters, so the looping strip never reloads them.
+      const next = prev.map((v, i) => (i >= lo && i <= hi) || (!inline && v));
+      return next.every((v, i) => v === prev[i]) ? prev : next;
     });
-  }, [inView, items.length, stepSize]);
+  }, [inView, inline, items.length, stepSize, play]);
+
+  // Curated reels on phones play inside Instagram's embed, which tells the page nothing. A tap there moves focus
+  // into that embed, so while the strip is on screen the page checks which reel's embed holds focus
+  // (a cheap read, a few times a second) and stops the others. The window's blur event makes the first check instant.
+  useEffect(() => {
+    if (!inline || !inView) return;
+    const check = () => {
+      const a = document.activeElement;
+      if (!(a instanceof HTMLIFrameElement) || !scroller.current?.contains(a)) return;
+      const id = a.closest<HTMLElement>('li[data-id]')?.dataset.id;
+      if (id) play(id);
+    };
+    const onBlur = () => window.setTimeout(check, 0);
+    const timer = window.setInterval(check, FOCUS_POLL_MS);
+    window.addEventListener('blur', onBlur);
+    return () => {
+      window.removeEventListener('blur', onBlur);
+      window.clearInterval(timer);
+    };
+  }, [inline, inView, play]);
+
+  // The theatre opening, or the screen widening, stops a reel playing in the strip.
+  useEffect(() => {
+    if (paused || !inline) play(null);
+  }, [paused, inline, play]);
 
   // Posters only start loading once the strip is close to the viewport.
   useEffect(() => {
@@ -249,8 +310,19 @@ export default function ReelStrip({ items, paused, onOpen }: Props) {
           className="reel-strip flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-6 pt-2 md:cursor-grab md:gap-6"
         >
           {items.map((item, i) => (
-            <li key={item.id} className="w-[64vw] max-w-[280px] shrink-0 snap-start sm:w-[40vw] md:w-[260px] lg:w-[272px]">
-              <ReelCard item={item} index={i} total={items.length} near={near[i]} onOpen={() => onOpen(i)} />
+            <li key={item.id} data-id={item.id} className="w-[64vw] max-w-[280px] shrink-0 snap-start sm:w-[40vw] md:w-[260px] lg:w-[272px]">
+              <ReelCard
+                key={resets[item.id] ?? 0}
+                item={item}
+                index={i}
+                total={items.length}
+                near={near[i]}
+                inline={inline}
+                playing={playing === item.id}
+                onOpen={() => onOpen(i)}
+                onPlay={() => play(item.id)}
+                onStop={() => play(null)}
+              />
             </li>
           ))}
         </ul>

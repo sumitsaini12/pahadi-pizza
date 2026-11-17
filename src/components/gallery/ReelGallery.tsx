@@ -8,11 +8,14 @@ import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from '../../constants';
 import ReelStrip from './ReelStrip';
 import Theatre from './Theatre';
 import type { ReelItem } from './types';
+import { useMediaQuery } from './usePrefersReducedMotion';
 
 type Props = { mode: 'live' | 'embed'; items: ReelItem[] };
 
 export default function ReelGallery({ mode, items }: Props) {
   const [open, setOpen] = useState<number | null>(null);
+  // Phones play reels right in the strip; wider screens open the theatre, which starts the reel at once.
+  const inline = !useMediaQuery('(min-width: 768px)');
   const reels = items.filter((i) => i.kind === 'video').length;
 
   return (
@@ -55,7 +58,7 @@ export default function ReelGallery({ mode, items }: Props) {
         </Reveal>
       </div>
 
-      <ReelStrip items={items} paused={open !== null} onOpen={setOpen} />
+      <ReelStrip items={items} paused={open !== null} inline={inline} onOpen={setOpen} />
 
       <div className="mx-auto mt-10 flex max-w-7xl justify-center px-4 md:px-8">
         <a

@@ -35,6 +35,11 @@ type Props = {
   inert?: boolean;
   /** 'reel' fills a 9:16 parent with the video alone; 'post' fills a 4:5 parent with the photo. */
   shape?: 'reel' | 'post';
+  /**
+   * Phones only (below 768px): the frame takes taps even in poster mode, so a tap lands on Instagram's own
+   * play button and starts the reel at once. Keyboard and screen readers still use our card button.
+   */
+  tapThrough?: boolean;
   className?: string;
 };
 
@@ -44,7 +49,7 @@ type Props = {
  * the attribution and a link to the post are shown by our own UI around it.
  * The parent must be a 9:16 box for a reel and a 4:5 box for a post.
  */
-export default function EmbedFrame({ src, title, inert, shape = 'post', className = '' }: Props) {
+export default function EmbedFrame({ src, title, inert, shape = 'post', tapThrough, className = '' }: Props) {
   const [loaded, setLoaded] = useState(false);
   return (
     <div className={`absolute inset-0 overflow-hidden [container-type:inline-size] ${className}`}>
@@ -58,7 +63,7 @@ export default function EmbedFrame({ src, title, inert, shape = 'post', classNam
         tabIndex={inert ? -1 : undefined}
         aria-hidden={inert || undefined}
         className={`absolute max-w-none border-0 transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'} ${
-          inert ? 'pointer-events-none' : ''
+          inert ? `pointer-events-none ${tapThrough ? 'max-md:pointer-events-auto' : ''}` : ''
         }`}
         style={frameStyle(shape)}
       />
