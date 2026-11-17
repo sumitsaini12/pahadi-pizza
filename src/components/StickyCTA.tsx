@@ -1,27 +1,36 @@
-import React from 'react';
+'use client';
+
+import { motion } from 'framer-motion';
 import { Phone, MessageCircle } from 'lucide-react';
-import { PHONE_PRIMARY, WHATSAPP_NUMBER } from '../constants';
+import { TEL_PRIMARY, WHATSAPP_URL } from '../content';
 
-const StickyCTA: React.FC = () => {
+/** Thumb-reach Call / WhatsApp bar for phones. */
+export default function StickyCTA() {
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[90%] max-w-md flex gap-4 md:hidden animate-in fade-in slide-in-from-bottom-8 duration-700">
-      <a 
-        href={`tel:${PHONE_PRIMARY.replace(/\s/g, '')}`} 
-        className="flex-1 bg-red-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-2xl shadow-red-600/40 border border-red-500"
-      >
-        <Phone className="w-5 h-5" />
-        Call
-      </a>
-      <a 
-        href={`https://wa.me/${WHATSAPP_NUMBER}`} 
-        className="flex-1 bg-[#25D366] text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-2xl shadow-green-600/40 border border-[#128C7E]"
-      >
-        <MessageCircle className="w-5 h-5" />
-        Order
-      </a>
-    </div>
+    <motion.div
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ delay: 0.8, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-cream/10 bg-espresso/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 md:hidden"
+    >
+      <div className="mx-auto flex max-w-md gap-3">
+        <a
+          href={TEL_PRIMARY}
+          className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-tomato py-3.5 font-bold text-white shadow-lg shadow-tomato/30"
+        >
+          <Phone className="h-5 w-5" aria-hidden />
+          Call
+        </a>
+        <a
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-whatsapp py-3.5 font-bold text-white shadow-lg shadow-black/30"
+        >
+          <MessageCircle className="h-5 w-5" aria-hidden />
+          Order
+        </a>
+      </div>
+    </motion.div>
   );
-};
-
-export default StickyCTA;
-
+}

@@ -1,61 +1,75 @@
-import React from 'react';
-import { FEATURES } from '../constants';
+'use client';
+
+import Image from 'next/image';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Leaf, Flame, Timer, ShieldCheck } from 'lucide-react';
+import { FEATURES } from '../constants';
+import { ABOUT } from '../content';
+import Reveal from './motion/Reveal';
+import TiltCard from './motion/TiltCard';
 
-const About: React.FC = () => {
+const ICONS = { Leaf, Flame, Timer, ShieldCheck };
+const ICON_TONES = ['bg-basil/10 text-basil', 'bg-tomato/10 text-tomato', 'bg-gold/15 text-[#9a6510]', 'bg-bark/10 text-bark'];
+
+export default function About() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const imgY = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
+  const badgeY = useTransform(scrollYProgress, [0, 1], ['30%', '-30%']);
+
   return (
-    <section id="about" className="py-24 md:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="relative group">
-            <div className="absolute -inset-4 bg-red-100 rounded-3xl -rotate-2 group-hover:rotate-0 transition-transform"></div>
-            <img 
-              src="https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?q=80&w=1974&auto=format&fit=crop" 
-              alt="Artisanal Pizza Making" 
-              className="relative w-full h-[500px] object-cover rounded-2xl shadow-2xl"
-            />
-            <div className="absolute -bottom-10 -right-6 md:-right-10 bg-white p-8 rounded-2xl shadow-xl max-w-xs border border-gray-100 hidden md:block">
-              <p className="text-red-600 font-bold text-4xl mb-1">5+</p>
-              <p className="text-gray-600 font-medium leading-tight">Years of Culinary Excellence in Italian Fusion.</p>
+    <section id="about" className="relative overflow-hidden bg-cream py-24 md:py-32">
+      <div aria-hidden className="absolute -left-40 top-20 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(233,169,59,0.28),transparent_65%)]" />
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-4 md:px-8 lg:grid-cols-2 lg:gap-20">
+        <div ref={ref} className="relative">
+          <div aria-hidden className="absolute -inset-3 rotate-[-3deg] rounded-[2.5rem] bg-gradient-to-br from-tomato/20 via-gold/20 to-basil/20" />
+          <TiltCard max={6} innerClassName="rounded-[2.25rem]">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[2.25rem] shadow-[0_40px_80px_-30px_rgba(42,28,19,0.6)] sm:aspect-[5/5] lg:aspect-[4/5]">
+              <motion.div style={{ y: imgY }} className="absolute inset-[-8%]">
+                <Image src={ABOUT.image} alt={ABOUT.imageAlt} fill sizes="(min-width: 1024px) 560px, 100vw" className="object-cover" />
+              </motion.div>
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-espresso/50 via-transparent to-transparent" />
             </div>
-          </div>
+          </TiltCard>
+          <motion.div
+            style={{ y: badgeY }}
+            className="absolute -bottom-8 right-2 max-w-[15rem] rounded-3xl border border-bark/10 bg-cream p-6 shadow-[0_30px_60px_-25px_rgba(42,28,19,0.55)] sm:-right-6 md:p-7"
+          >
+            <p className="font-display text-5xl font-semibold text-tomato">{ABOUT.badgeValue}</p>
+            <p className="mt-1 text-sm font-semibold leading-snug text-ink/80">{ABOUT.badgeText}</p>
+          </motion.div>
+        </div>
 
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-red-600 font-bold tracking-widest uppercase text-sm mb-4">Our Story</h2>
-              <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6 font-display">
-                Rooted in the Hills, <br />Crafted with Passion.
-              </h3>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Pahadi Pizza was born from a simple desire: to bring world-class Italian pizza techniques to the serene landscapes of Uttarakhand. We believe that great pizza starts with great water and fresh mountain air, combined with artisanal recipes passed down through generations.
-              </p>
-            </div>
+        <div>
+          <Reveal>
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-tomato">{ABOUT.eyebrow}</p>
+            <h2 className="text-balance font-display text-4xl font-semibold leading-[1.05] text-ink md:text-6xl">
+              {ABOUT.titleLine1}
+              <br />
+              <span className="italic text-basil">{ABOUT.titleLine2}</span>
+            </h2>
+            <p className="mt-6 text-lg leading-relaxed text-muted">{ABOUT.body}</p>
+          </Reveal>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              {FEATURES.map((feature) => {
-                const IconComponent = {
-                  Leaf,
-                  Flame,
-                  Timer,
-                  ShieldCheck,
-                }[feature.iconName];
-                return (
-                  <div key={feature.title} className="flex flex-col gap-3">
-                    <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center">
-                      {IconComponent && <IconComponent className={`w-6 h-6 ${feature.iconColor}`} />}
-                    </div>
-                    <h4 className="text-xl font-bold text-gray-900">{feature.title}</h4>
-                    <p className="text-gray-500 text-sm leading-relaxed">{feature.description}</p>
+          <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {FEATURES.map((f, i) => {
+              const Icon = ICONS[f.iconName];
+              return (
+                <Reveal key={f.title} delay={i * 0.08}>
+                  <div className="group h-full rounded-3xl border border-bark/10 bg-white/70 p-6 transition duration-500 hover:-translate-y-1 hover:bg-white hover:shadow-[0_25px_50px_-30px_rgba(42,28,19,0.5)]">
+                    <span className={`mb-4 grid h-12 w-12 place-items-center rounded-2xl ${ICON_TONES[i % ICON_TONES.length]} transition duration-500 group-hover:rotate-[-8deg] group-hover:scale-110`}>
+                      <Icon className="h-6 w-6" aria-hidden />
+                    </span>
+                    <h3 className="font-display text-xl font-semibold text-ink">{f.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted">{f.description}</p>
                   </div>
-                );
-              })}
-            </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default About;
-
+}

@@ -1,56 +1,58 @@
-import React from 'react';
+'use client';
 
-const Gallery: React.FC = () => {
-  const images = [
-    { 
-      src: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=1200', 
-      span: 'col-span-1 md:col-span-2 row-span-2' 
-    },
-    { 
-      src: 'https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&q=80&w=800', 
-      span: 'col-span-1' 
-    },
-    { 
-      src: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=800', 
-      span: 'col-span-1' 
-    },
-    { 
-      src: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=1200', 
-      span: 'col-span-1 md:col-span-2' 
-    },
-  ];
+import { useRef } from 'react';
+import Image from 'next/image';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { GALLERY_IMAGES } from '../content';
+import Reveal from './motion/Reveal';
+
+const LAYOUT = [
+  'md:col-span-2 md:row-span-2 aspect-[4/3] md:aspect-auto',
+  'aspect-[4/3] md:aspect-auto',
+  'aspect-[4/3] md:aspect-auto',
+  'md:col-span-3 aspect-[16/9] md:aspect-auto',
+];
+const SPEEDS = [-4, 8, -8, 5];
+
+export default function Gallery() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const y0 = useTransform(scrollYProgress, [0, 1], [`${SPEEDS[0]}%`, `${-SPEEDS[0]}%`]);
+  const y1 = useTransform(scrollYProgress, [0, 1], [`${SPEEDS[1]}%`, `${-SPEEDS[1]}%`]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [`${SPEEDS[2]}%`, `${-SPEEDS[2]}%`]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [`${SPEEDS[3]}%`, `${-SPEEDS[3]}%`]);
+  const ys = [y0, y1, y2, y3];
 
   return (
-    <section className="py-24 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-red-600 font-bold tracking-[0.2em] uppercase text-xs mb-4">Vibe & Taste</h2>
-          <h3 className="text-4xl md:text-5xl font-bold text-[#1D1D1F] font-display">The Gallery</h3>
-        </div>
+    <section id="gallery" className="relative bg-cream pb-24 md:pb-32">
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
+        <Reveal className="mb-12 flex flex-col items-start justify-between gap-4 md:mb-16 md:flex-row md:items-end">
+          <div>
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-tomato">Vibe &amp; Taste</p>
+            <h2 className="font-display text-4xl font-semibold leading-[1.05] text-ink md:text-6xl">
+              The <span className="italic text-basil">Gallery</span>
+            </h2>
+          </div>
+          <p className="max-w-sm text-muted">Fresh out of the oven, every single time.</p>
+        </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6 h-auto md:h-[800px]">
-          {images.map((img, i) => (
-            <div 
-              key={i} 
-              className={`overflow-hidden rounded-[32px] ${img.span} group relative bg-[#F5F5F7] shadow-sm`}
-            >
-              <img 
-                src={img.src} 
-                alt="Gallery item" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-                loading="lazy"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=1200';
-                }}
-              />
-              <div className="absolute inset-0 bg-black/5 group-hover:bg-black/0 transition-colors duration-500"></div>
-            </div>
+        <div ref={ref} className="grid grid-cols-1 gap-4 md:h-[1080px] md:grid-cols-3 md:grid-rows-[1fr_1fr_0.9fr] md:gap-6">
+          {GALLERY_IMAGES.map((src, i) => (
+            <Reveal key={src} delay={i * 0.08} className={`group relative overflow-hidden rounded-[2rem] bg-cream-2 ${LAYOUT[i]}`}>
+              <motion.div style={{ y: ys[i] }} className="absolute inset-[-10%]">
+                <Image
+                  src={src}
+                  alt="Freshly baked pizza"
+                  fill
+                  sizes={i === 3 ? '100vw' : i === 0 ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 33vw, 100vw'}
+                  className="object-cover transition duration-[1400ms] ease-out group-hover:scale-110"
+                />
+              </motion.div>
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-espresso/40 via-transparent to-gold/10 opacity-80 transition group-hover:opacity-40" />
+            </Reveal>
           ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default Gallery;
-
+}
