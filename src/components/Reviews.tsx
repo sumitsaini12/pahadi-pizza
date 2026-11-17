@@ -2,6 +2,7 @@ import { Star } from 'lucide-react';
 import { REVIEWS } from '../data';
 import { Review } from '../types';
 import Reveal from './motion/Reveal';
+import ReviewsCarousel from './ReviewsCarousel';
 
 function ReviewCard({ review }: { review: Review }) {
   return (
@@ -30,16 +31,19 @@ export default function Reviews() {
   const rows = [REVIEWS.slice(0, half), REVIEWS.slice(half)];
 
   return (
-    <section id="reviews" className="grain relative overflow-hidden bg-espresso py-24 text-cream md:py-32">
+    <section id="reviews" className="cv-auto grain relative overflow-hidden bg-espresso py-16 text-cream md:py-32">
       <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,54,31,0.16),transparent_60%)]" />
-      <Reveal className="relative z-[2] mx-auto mb-14 max-w-2xl px-4 text-center">
+      <Reveal className="relative z-[2] mx-auto mb-8 max-w-2xl px-4 text-center md:mb-14">
         <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-gold">Testimonials</p>
-        <h2 className="font-display text-4xl font-semibold leading-[1.05] md:text-6xl">
+        <h2 className="font-display text-[2.15rem] font-semibold leading-[1.05] md:text-6xl">
           What Our <span className="italic text-gold-light">Patrons</span> Say
         </h2>
       </Reveal>
 
-      <div className="relative z-[2] space-y-6 [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
+      <ReviewsCarousel reviews={REVIEWS} />
+
+      {/* Tablet and desktop: two slow review ribbons */}
+      <div className="relative z-[2] hidden space-y-6 md:block [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
         {rows.map((row, r) => (
           <div key={r} className="group overflow-hidden motion-reduce:overflow-x-auto">
             <div
