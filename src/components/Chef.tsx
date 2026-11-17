@@ -1,64 +1,98 @@
-import React from 'react';
+'use client';
 
-const Chef: React.FC = () => {
+import { useState } from 'react';
+import Image from 'next/image';
+import { ChefHat, Quote } from 'lucide-react';
+import { CHEF } from '../content';
+import Reveal from './motion/Reveal';
+import TiltCard from './motion/TiltCard';
+
+export default function Chef() {
+  // The chef's photo ships with the site; the branded card only shows if it ever fails to load.
+  const [photoFailed, setPhotoFailed] = useState(false);
+
   return (
-    <section id="chef" className="py-24 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="bg-[#1A1A1A] rounded-[40px] p-8 md:p-20 relative overflow-hidden">
-          {/* Decorative accents */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+    <section id="chef" className="cv-auto relative overflow-hidden bg-cream py-12 md:py-32">
+      <div className="mx-auto max-w-7xl px-3 md:px-8">
+        <div className="grain relative overflow-hidden rounded-[2rem] bg-espresso px-5 py-10 text-cream md:rounded-[2.5rem] shadow-[0_50px_100px_-40px_rgba(22,14,10,0.9)] md:px-14 md:py-20 lg:rounded-[3rem]">
+          <div aria-hidden className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(200,54,31,0.35),transparent_65%)]" />
+          <div aria-hidden className="absolute -bottom-32 -left-20 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(233,169,59,0.2),transparent_65%)]" />
+
+          <div className="relative z-[2] grid grid-cols-1 items-center gap-8 md:gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
             <div className="order-2 lg:order-1">
-              <h2 className="text-red-500 font-bold tracking-widest uppercase text-sm mb-4">Meet Our Visionary</h2>
-              <h3 className="text-4xl md:text-6xl font-bold text-white mb-8 font-display">Chef Akash Saini</h3>
-              <div className="space-y-6 text-gray-400 text-lg leading-relaxed">
-                <p>
-                  With over 5 years of experience across leading kitchens in India, Chef Akash Saini has honed his craft by working with popular pizza brands, including the Happy Funny Pizza franchise. His journey blends modern pizza techniques with bold, locally inspired flavors.
+              <Reveal>
+                <p className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.28em] text-gold">
+                  <ChefHat className="h-4 w-4" aria-hidden />
+                  {CHEF.eyebrow}
                 </p>
-                <p>
-                  Specializing in artisanal sourdough and thin-crust fusion pizzas, Chef Akash focuses on quality ingredients, consistent taste, and customer-first innovation. His philosophy is simple:
-                </p>
-                <p className="text-white italic">
-                  "Great pizza is about balance—authentic methods, fresh ingredients, and flavors people love."
-                </p>
-              </div>
-              
-              <div className="mt-12 flex flex-wrap gap-10">
-                <div>
-                  <p className="text-white text-3xl font-bold mb-1">5+</p>
-                  <p className="text-gray-500 text-sm uppercase tracking-wider font-bold">Years Experience</p>
-                </div>
-                <div>
-                  <p className="text-white text-3xl font-bold mb-1">100k+</p>
-                  <p className="text-gray-500 text-sm uppercase tracking-wider font-bold">Pizzas Served</p>
-                </div>
-                <div>
-                  <p className="text-white text-3xl font-bold mb-1">Top 1</p>
-                  <p className="text-gray-500 text-sm uppercase tracking-wider font-bold">In Kaladhungi</p>
-                </div>
-              </div>
+                <h2 className="font-display text-[2.15rem] font-semibold leading-[1.02] md:text-6xl">{CHEF.name}</h2>
+                <p className="mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-cream/70 md:text-base">{CHEF.role}</p>
+              </Reveal>
+
+              <Reveal delay={0.1} className="mt-5 text-base leading-relaxed text-cream/80 md:mt-8 md:text-lg md:text-cream/75">
+                {CHEF.note.map((para, i) => (
+                  <p key={i} className={i === 0 ? 'text-lg text-cream/90 md:text-xl' : 'mt-4 md:mt-5'}>
+                    {para}
+                  </p>
+                ))}
+              </Reveal>
+
+              <Reveal delay={0.2}>
+                <blockquote className="relative mt-6 rounded-2xl border border-gold/20 bg-cream/5 p-5 pl-12 font-display text-lg italic md:mt-8 md:rounded-3xl md:p-6 md:pl-14 md:text-xl leading-snug text-cream md:text-2xl">
+                  <Quote className="absolute left-4 top-5 h-5 w-5 text-gold md:left-5 md:top-6 md:h-6 md:w-6" aria-hidden />
+                  <p>&ldquo;{CHEF.quote}&rdquo;</p>
+                  <footer className="mt-4 font-sans text-sm font-semibold not-italic tracking-wide text-gold">&mdash; {CHEF.name}</footer>
+                </blockquote>
+              </Reveal>
+
+              <Reveal delay={0.3}>
+                <dl className="mt-6 grid grid-cols-3 md:mt-10 gap-2 sm:gap-3 md:gap-6">
+                  {CHEF.stats.map((s) => (
+                    <div key={s.label} className="flex flex-col-reverse rounded-2xl border border-cream/10 bg-cream/[0.04] px-1.5 py-4 text-center md:p-5">
+                      <dt className="mt-1 text-[11px] font-bold uppercase leading-tight tracking-[0.06em] text-cream/75 sm:text-xs sm:tracking-[0.16em]">{s.label}</dt>
+                      <dd className="whitespace-nowrap font-display text-2xl font-semibold text-gold-light sm:text-3xl md:text-4xl">{s.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </Reveal>
             </div>
 
-            <div className="order-1 lg:order-2">
-              <div className="relative">
-                <div className="absolute inset-0 bg-red-600/20 rounded-[30px] rotate-6 scale-95"></div>
-                <img 
-                  src="https://pms-tool.s3.eu-west-1.amazonaws.com/1766409646086.jpeg" 
-                  alt="Chef Akash Saini" 
-                  className="relative w-full aspect-[4/5] object-cover rounded-[30px] grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1577219491135-ce391730fbaf?q=80&w=1200&auto=format&fit=crop';
-                  }}
-                />
+            <Reveal className="order-1 lg:order-2" y={50}>
+              <div className="relative mx-auto max-w-[15rem] sm:max-w-sm lg:max-w-none">
+                <div aria-hidden className="absolute inset-0 translate-x-4 translate-y-4 rotate-3 rounded-[2rem] border-2 border-gold/40" />
+                <TiltCard max={9} innerClassName="rounded-[2rem]">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-2xl">
+                    {!photoFailed ? (
+                      <Image
+                        src={CHEF.photo}
+                        alt={CHEF.photoAlt}
+                        fill
+                        loading="lazy"
+                        sizes="(min-width: 1024px) 520px, (min-width: 640px) 384px, 240px"
+                        className="object-cover object-[50%_30%] transition duration-700 hover:scale-105"
+                        onError={() => setPhotoFailed(true)}
+                      />
+                    ) : (
+                      <div className="absolute inset-0 grid place-items-center bg-[radial-gradient(circle_at_50%_35%,#3a2618,#160e0a_70%)]">
+                        <div className="text-center">
+                          <span className="mx-auto block h-40 w-40 overflow-hidden rounded-full ring-4 ring-gold/40 md:h-48 md:w-48">
+                            <Image src="/app-logo.png" alt="" width={192} height={192} className="h-full w-full object-cover" />
+                          </span>
+                          <ChefHat className="mx-auto mt-6 h-8 w-8 text-gold" aria-hidden />
+                        </div>
+                      </div>
+                    )}
+                    <div aria-hidden className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-espresso/90 via-espresso/45 to-transparent" />
+                    <p className="absolute bottom-5 left-5 right-5 font-display text-2xl font-semibold text-cream drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] md:text-3xl" style={{ transform: 'translateZ(50px)' }}>
+                      {CHEF.name}
+                    </p>
+                  </div>
+                </TiltCard>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default Chef;
-
+}

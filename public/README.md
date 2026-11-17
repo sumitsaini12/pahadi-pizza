@@ -27,4 +27,11 @@ To add your logo as the favicon (icon in browser tab), add the following files h
 
 The favicon will automatically appear in the browser tab once you add the file and restart your development server.
 
+## Google review QR code
 
+`google-review-qr.png` (1024x1024) opens the "Write a review" form for
+Pahadi Pizza's Google listing. Print it for the counter or table tents.
+Once the site is live it can also be downloaded from `/google-review-qr.png`.
+
+It encodes:
+https://search.google.com/local/writereview?placeid=ChIJ8d2hem11CjkRiVw-MYPPSHQ

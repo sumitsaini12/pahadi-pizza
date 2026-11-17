@@ -1,73 +1,138 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ------------------------------------------------------------------
+   Pahadi Pizza brand tokens: a wood-fired palette taken from the logo
+   (cream, sage hills, terracotta, espresso) plus tomato, basil and
+   melted-cheese gold.
+------------------------------------------------------------------- */
+@theme {
+  --color-espresso: #160e0a;
+  --color-charcoal: #22160f;
+  --color-bark: #3a2618;
+  --color-cream: #f8f0e1;
+  --color-cream-2: #efe1c6;
+  --color-ink: #2a1c13;
+  --color-muted: #6a5646;
+  --color-tomato: #c8361f;
+  --color-tomato-dark: #a52a15;
+  --color-tomato-light: #ef6a4b;
+  --color-basil: #3f6b3a;
+  --color-basil-light: #8fb27f;
+  --color-gold: #e9a93b;
+  --color-gold-light: #f7cf7a;
+  --color-whatsapp: #15803d;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --font-display: var(--font-fraunces), Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --animate-spin-slow: spin 40s linear infinite;
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-ember: ember 6s ease-in infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    50% { transform: translate3d(0, -14px, 0) rotate(6deg); }
+  }
+  @keyframes ember {
+    0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0; }
+    15% { opacity: 0.9; }
+    100% { transform: translate3d(var(--drift, 20px), -70vh, 0) scale(0.3); opacity: 0; }
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  color-scheme: light;
 }
 
-/* Custom scrollbar */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Custom scrollbar for pizza sections */
-.scrollbar-thin::-webkit-scrollbar {
-  height: 8px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 10px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 10px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
-}
-
-.scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: #d1d5db transparent;
-}
-
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  /* Phones: fixed 64px header; larger screens: taller header. */
+  scroll-padding-top: 72px;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (min-width: 768px) {
+  html { scroll-padding-top: 88px; }
 }
 
-/* Selection styling */
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
 ::selection {
-  background-color: rgba(220, 38, 38, 0.2);
-  color: rgb(220, 38, 38);
+  background-color: rgba(200, 54, 31, 0.22);
+  color: var(--color-tomato-dark);
 }
 
-/* Reveal animation - CSS only, no JS needed */
-.reveal {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 1s ease-out, transform 1s ease-out;
+:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Subtle film grain for warm, tactile surfaces */
+.grain {
+  position: relative;
+  isolation: isolate;
+}
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  display: none;
+}
+/* Grain is a desktop-only flourish: it costs too much paint on phones. */
+@media (min-width: 1024px) {
+  .grain::after { display: block; }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.text-balance { text-wrap: balance; }
+
+/* Long sections below the first screen: the browser skips their layout,
+   paint and image loading until they come near the viewport. The intrinsic
+   size is remembered once rendered, and scroll anchoring keeps the view steady. */
+:root:not(.cv-off) .cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1600px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Reel strip: full-bleed scroller whose first card lines up with the page container. */
+.reel-strip {
+  --reel-gutter: max(1rem, calc((100vw - 80rem) / 2 + 1rem));
+  padding-inline: var(--reel-gutter);
+  scroll-padding-inline: var(--reel-gutter);
+  scrollbar-width: none;
+}
+.reel-strip::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .reel-strip {
+    --reel-gutter: max(2rem, calc((100vw - 80rem) / 2 + 2rem));
+  }
 }

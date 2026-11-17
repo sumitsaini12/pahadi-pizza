@@ -1,0 +1,109 @@
+/* Motion for the About section. Every animation here is decorative and
+   switches off for visitors who prefer reduced motion. */
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(var(--r, 0deg)); }
+  50% { transform: translate3d(0, -10px, 0) rotate(calc(var(--r, 0deg) + 8deg)); }
+}
+
+@keyframes mist {
+  0%, 100% { transform: translate3d(-3%, 0, 0); }
+  50% { transform: translate3d(3%, 0, 0); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-14deg); }
+  65% { transform: rotate(10deg); }
+}
+
+@keyframes flicker {
+  0%, 100% { transform: scale(1) translateY(0); }
+  25% { transform: scale(1.12, 0.94) translateY(1px); }
+  50% { transform: scale(0.94, 1.1) translateY(-1px); }
+  75% { transform: scale(1.06, 0.97); }
+}
+
+@keyframes tick {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes shine {
+  0% { transform: translateX(-140%) skewX(-20deg); }
+  100% { transform: translateX(240%) skewX(-20deg); }
+}
+
+@keyframes pop {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.18); }
+}
+
+.sprite {
+  animation: drift var(--d, 7s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.mist {
+  animation: mist 18s ease-in-out infinite;
+}
+
+/* Icon micro-animations, played while the card is hovered or focused. */
+.card:hover .iconLeaf,
+.card:focus-within .iconLeaf {
+  animation: sway 1.1s ease-in-out;
+  transform-origin: 30% 90%;
+}
+
+.card:hover .iconFlame,
+.card:focus-within .iconFlame {
+  animation: flicker 0.6s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+
+.card:hover .iconTimer,
+.card:focus-within .iconTimer {
+  animation: tick 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.card:hover .iconShield,
+.card:focus-within .iconShield {
+  animation: pop 0.7s ease-in-out;
+}
+
+.iconBox {
+  position: relative;
+  overflow: hidden;
+}
+
+.iconBox::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+  transform: translateX(-140%) skewX(-20deg);
+  pointer-events: none;
+}
+
+.card:hover .iconBox::after,
+.card:focus-within .iconBox::after {
+  animation: shine 0.9s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sprite,
+  .mist,
+  .card:hover .iconLeaf,
+  .card:hover .iconFlame,
+  .card:hover .iconTimer,
+  .card:hover .iconShield,
+  .card:focus-within .iconLeaf,
+  .card:focus-within .iconFlame,
+  .card:focus-within .iconTimer,
+  .card:focus-within .iconShield,
+  .card:hover .iconBox::after,
+  .card:focus-within .iconBox::after {
+    animation: none;
+  }
+}

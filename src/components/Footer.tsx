@@ -1,201 +1,127 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
-import { BRAND_NAME, TAGLINE, ADDRESS, PHONE_PRIMARY, INSTAGRAM_URL, EMAIL_ADDRESS } from '../constants';
-import { Instagram, Facebook, Twitter, MessageCircle } from 'lucide-react';
+import { Instagram, Youtube, MessageCircle, MapPin, Phone, Mail } from 'lucide-react';
+import { BRAND_NAME, TAGLINE, ADDRESS, PHONE_PRIMARY, INSTAGRAM_URL, YOUTUBE_URL, EMAIL_ADDRESS, WHATSAPP_NUMBER } from '../constants';
+import { CREDIT, FOOTER_BLURB, WHATSAPP_GROUP_MESSAGE, TEL_PRIMARY } from '../content';
 
-const Footer: React.FC = () => {
+const LINKS = [
+  { name: 'Our Menu', href: '#menu' },
+  { name: 'Brand Story', href: '#about' },
+  { name: 'Master Chef', href: '#chef' },
+  { name: 'Gallery', href: '#gallery' },
+  { name: 'Reviews', href: '#reviews' },
+  { name: 'Location', href: '#location' },
+];
+
+export default function Footer() {
   const [message, setMessage] = useState<{ type: 'success' | 'error' | null; text: string }>({ type: null, text: '' });
 
-  const handleJoinWhatsAppGroup = () => {
-    const phoneNumber = '918755613893';
-    const messageText = 'Please add my number to Pahadi Pizza group for more new upcoming orders offer and updates';
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(messageText)}`;
-    
+  const joinGroup = () => {
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_GROUP_MESSAGE)}`;
     try {
-      window.open(whatsappUrl, '_blank');
+      window.open(url, '_blank');
       setMessage({ type: 'success', text: 'Opening WhatsApp... Please send the message to join our group!' });
-      setTimeout(() => {
-        setMessage({ type: null, text: '' });
-      }, 5000);
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Unable to open WhatsApp. Please try again.' });
-      setTimeout(() => {
-        setMessage({ type: null, text: '' });
-      }, 5000);
     }
+    setTimeout(() => setMessage({ type: null, text: '' }), 5000);
   };
 
   return (
-    <footer className="bg-gray-900 text-white pt-24 pb-12">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 border-b border-gray-800 pb-16">
-          <div className="lg:col-span-1">
-            <a 
-              href="/" 
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="flex items-center space-x-3 mb-6"
-            >
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden">
-                <Image 
-                  src="/app-logo.png" 
-                  alt="Pahadi Pizza Logo" 
-                  width={48} 
-                  height={48} 
-                  className="object-contain"
-                />
-              </div>
-              <span className="text-2xl font-bold tracking-tight">{BRAND_NAME}</span>
+    <footer className="grain relative overflow-hidden bg-espresso pb-[calc(6rem+env(safe-area-inset-bottom))] pt-14 text-cream md:pb-10 md:pt-24">
+      <div aria-hidden className="absolute -top-40 left-1/2 h-80 w-[60rem] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse,rgba(200,54,31,0.22),transparent_65%)]" />
+      <div className="relative z-[2] mx-auto max-w-7xl px-4 md:px-8">
+        <div className="grid grid-cols-1 gap-10 border-b border-cream/10 pb-10 md:grid-cols-2 md:gap-12 md:pb-14 lg:grid-cols-[1.3fr_0.8fr_1.1fr_1.1fr]">
+          <div>
+            <a href="#top" className="flex items-center gap-3">
+              <span className="block h-14 w-14 overflow-hidden rounded-full ring-2 ring-gold/50">
+                <Image src="/app-logo.png" alt="Pahadi Pizza Logo" width={56} height={56} className="h-full w-full object-cover" />
+              </span>
+              <span>
+                <span className="block font-display text-2xl font-semibold">{BRAND_NAME}</span>
+                <span className="block text-xs uppercase tracking-[0.2em] text-gold">{TAGLINE}</span>
+              </span>
             </a>
-            <p className="text-gray-400 leading-relaxed mb-8">
-              Bringing the authentic wood-fired pizza experience to the foothills of Himalayas. Crafted with love, served with pride.
-            </p>
-            <div className="flex gap-4">
-              <a 
-                href={INSTAGRAM_URL} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-red-600 transition-colors"
-                aria-label="Instagram"
+            <p className="mt-5 max-w-xs leading-relaxed text-cream/75 md:mt-6 md:text-cream/65">{FOOTER_BLURB}</p>
+            <div className="mt-6 flex gap-3">
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Pahadi Pizza on Instagram"
+                className="grid h-11 w-11 place-items-center rounded-full border border-cream/15 transition hover:border-tomato hover:bg-tomato"
               >
-                <Instagram className="w-5 h-5" />
+                <Instagram className="h-5 w-5" aria-hidden />
               </a>
-              <a 
-                href="#" 
-                onClick={(e) => e.preventDefault()}
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-red-600 transition-colors cursor-not-allowed opacity-50" 
-                aria-label="Facebook"
+              <a
+                href={YOUTUBE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Pahadi Pizza on YouTube"
+                className="grid h-11 w-11 place-items-center rounded-full border border-cream/15 transition hover:border-[#ff0000] hover:bg-[#ff0000]"
               >
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a 
-                href="#" 
-                onClick={(e) => e.preventDefault()}
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-red-600 transition-colors cursor-not-allowed opacity-50" 
-                aria-label="Twitter"
-              >
-                <Twitter className="w-5 h-5" />
+                <Youtube className="h-5 w-5" aria-hidden />
               </a>
             </div>
           </div>
 
+          <nav aria-label="Footer">
+            <h2 className="font-display text-xl font-semibold">Quick Links</h2>
+            <ul className="mt-3 grid grid-cols-2 gap-x-4 text-cream/80 md:mt-5 md:block md:space-y-3 md:text-cream/65">
+              {LINKS.map((l) => (
+                <li key={l.name}>
+                  <a href={l.href} className="flex min-h-11 items-center transition hover:text-gold-light active:text-gold-light md:inline md:min-h-0">{l.name}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
           <div>
-            <h4 className="text-xl font-bold mb-6">Quick Links</h4>
-            <ul className="space-y-4 text-gray-400">
-              <li>
-                <a 
-                  href="#menu" 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const element = document.querySelector('#menu');
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                  className="hover:text-red-500 transition-colors"
-                >
-                  Our Menu
-                </a>
+            <h2 className="font-display text-xl font-semibold">Contact Info</h2>
+            <ul className="mt-4 space-y-3 text-cream/80 md:mt-5 md:space-y-4 md:text-cream/65">
+              <li className="flex gap-3">
+                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden />
+                <span>{ADDRESS}</span>
               </li>
-              <li>
-                <a 
-                  href="#about" 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const element = document.querySelector('#about');
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                  className="hover:text-red-500 transition-colors"
-                >
-                  Brand Story
-                </a>
+              <li className="flex items-center gap-3">
+                <Phone className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden />
+                <a href={TEL_PRIMARY} className="inline-flex min-h-11 items-center transition hover:text-gold-light active:text-gold-light md:min-h-0">{PHONE_PRIMARY}</a>
               </li>
-              <li>
-                <a 
-                  href="#chef" 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const element = document.querySelector('#chef');
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                  className="hover:text-red-500 transition-colors"
-                >
-                  Master Chef
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="#location" 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const element = document.querySelector('#location');
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                  className="hover:text-red-500 transition-colors"
-                >
-                  Location
-                </a>
+              <li className="flex items-center gap-3">
+                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden />
+                <a href={`mailto:${EMAIL_ADDRESS}`} className="inline-flex min-h-11 items-center break-all transition hover:text-gold-light active:text-gold-light md:min-h-0">{EMAIL_ADDRESS}</a>
               </li>
             </ul>
           </div>
 
-          <div>
-            <h4 className="text-xl font-bold mb-6">Contact Info</h4>
-            <ul className="space-y-4 text-gray-400">
-              <li className="flex gap-3">
-                <span className="text-gray-500">Add:</span>
-                {ADDRESS}
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-500">Call:</span>
-                {PHONE_PRIMARY}
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-500">Mail:</span>
-                <a href={`mailto:${EMAIL_ADDRESS}`} className="hover:text-red-500 transition-colors">
-                  {EMAIL_ADDRESS}
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-xl font-bold mb-6 text-red-600">Newsletter</h4>
-            <p className="text-gray-300 mb-6 text-sm leading-relaxed">
+          <div className="rounded-3xl border border-cream/10 bg-cream/[0.04] p-6">
+            <h2 className="font-display text-xl font-semibold text-tomato-light">Newsletter</h2>
+            <p className="mt-3 text-base leading-relaxed text-cream/80 md:text-sm md:text-cream/70">
               If you want to stay up to date with better offers and updates, please join our WhatsApp member group.
             </p>
-            <button 
-              onClick={handleJoinWhatsAppGroup}
-              className="w-full bg-[#25D366] text-white px-5 py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition-all shadow-lg shadow-green-500/30 active:scale-[0.98]"
+            <button
+              type="button"
+              onClick={joinGroup}
+              className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-whatsapp px-5 py-3.5 text-base font-bold md:text-sm text-white shadow-lg shadow-black/30 transition hover:brightness-110 active:scale-[0.98]"
             >
-              <MessageCircle className="w-5 h-5" />
-              <span>Join WhatsApp group</span>
+              <MessageCircle className="h-5 w-5" aria-hidden />
+              Join WhatsApp group
             </button>
-            {message.type && (
-              <p className={`mt-4 text-sm font-medium ${message.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
-                {message.text}
-              </p>
-            )}
+            <p aria-live="polite" className={`mt-3 min-h-5 text-sm font-medium ${message.type === 'error' ? 'text-tomato-light' : 'text-basil-light'}`}>
+              {message.text}
+            </p>
           </div>
         </div>
 
-        <div className="text-center text-gray-500 text-sm">
-          <p>© {new Date().getFullYear()} {BRAND_NAME}. All Rights Reserved. Crafted for quality. Created by <a href="https://sumit-dev-rose.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-500 transition-colors cursor-pointer">Sumit Kumar</a></p>
-        </div>
+        <p className="pt-6 text-center text-sm leading-relaxed text-cream/70 md:pt-8 md:text-cream/55">
+          © {new Date().getFullYear()} {BRAND_NAME}. All Rights Reserved. Crafted for quality. Created by{' '}
+          <a href={CREDIT.url} target="_blank" rel="noopener noreferrer" className="-my-3 inline-block py-3 font-semibold text-tomato-light transition hover:text-gold-light md:my-0 md:py-0">
+            {CREDIT.name}
+          </a>
+        </p>
       </div>
     </footer>
   );
-};
-
-export default Footer;
-
+}
